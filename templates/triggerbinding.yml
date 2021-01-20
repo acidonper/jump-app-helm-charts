@@ -1,0 +1,13 @@
+{{- range $key, $val := $.Values.global.apps }}
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: triggerbinding-{{ $key }}-build
+spec:
+  params:
+    - name: giturl
+      value: $(body.repository.url)
+    - name: gitbranch
+      value: $(body.ref)
+{{- end }}

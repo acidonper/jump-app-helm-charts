@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Condition
+metadata:
+  name: is-production
+spec:
+  params:
+  - name: branch
+    type: string
+  check:
+    image: alpine
+    script: |
+      #!/bin/sh
+      if echo $(params.branch) | egrep -iq "master"; then
+        echo "Branch - $(params.branch)"
+        exit 0
+      else
+        echo "Branch - $(params.branch)"
+        exit 1
+      fi
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Condition
+metadata:
+  name: is-development
+spec:
+  params:
+  - name: branch
+    type: string
+  check:
+    image: alpine
+    script: |
+      #!/bin/sh
+      if echo $(params.branch) | egrep -iq "develop"; then
+        echo "Branch - $(params.branch)"
+        exit 0
+      else
+        echo "Branch - $(params.branch)"
+        exit 1
+      fi

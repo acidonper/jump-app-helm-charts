@@ -1,0 +1,38 @@
+{{- range $key, $val := $.Values.global.apps }}
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+  name: pipelinerun-pipeline-{{ $key }}-build-pre
+spec:
+  params:
+    - name: gitbranch
+      value: master
+  resources:
+    - name: source-repo
+      resourceRef:
+        name: {{ $key }}-git-repo-pre
+  pipelineRef:
+    name: pipeline-{{ $key }}-build
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+  name: pipelinerun-pipeline-{{ $key }}-build-dev
+spec:
+  params:
+    - name: gitbranch
+      value: develop
+  resources:
+    - name: source-repo
+      resourceRef:
+        name: {{ $key }}-git-repo-dev
+  pipelineRef:
+    name: pipeline-{{ $key }}-build
+{{- end }}

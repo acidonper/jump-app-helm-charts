@@ -1,0 +1,12 @@
+{{- range $key, $val := $.Values.global.apps }}
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: {{ $key }}
+  name: {{ $key }}
+spec:
+  lookupPolicy:
+    local: false
+{{- end }}

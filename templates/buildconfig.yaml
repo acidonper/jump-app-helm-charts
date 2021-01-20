@@ -1,0 +1,66 @@
+{{- range $key, $val := $.Values.global.apps }}
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: {{ $key }}
+  name: {{ $key }}-dev
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: {{ $key }}:develop
+  postCommit: {}
+  resources: {}
+  source:
+    git:
+      uri: {{ $val.gitRepo }}
+      ref: {{ $val.gitBranchDev }}
+    type: Git
+  strategy:
+    {{- if eq $val.build "is" }}
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: {{ $val.imagestream }}
+        namespace: {{ $val.imagestreamNamespace }}
+    type: Source
+    {{- else }}
+    dockerStrategy: {}
+    type: Docker
+    {{- end }}
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: {{ $key }}
+  name: {{ $key }}-pre
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: {{ $key }}:master
+  postCommit: {}
+  resources: {}
+  source:
+    git:
+      uri: {{ $val.gitRepo }}
+      ref: {{ $val.gitBranchPro }}
+    type: Git
+  strategy:
+    {{- if eq $val.build "is" }}
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: {{ $val.imagestream }}
+        namespace: {{ $val.imagestreamNamespace }}
+    type: Source
+    {{- else }}
+    dockerStrategy: {}
+    type: Docker
+    {{- end }}
+{{- end }}

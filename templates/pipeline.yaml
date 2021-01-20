@@ -1,0 +1,48 @@
+{{- range $key, $val := $.Values.global.apps }}
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-{{ $key }}-build
+spec:
+  resources:
+    - name: source-repo
+      type: git
+  params:
+    - name: gitbranch  
+      type: string
+  tasks:
+    - name: app-test
+      taskRef:
+        name: task-{{ $val.type }}-new-commit-test
+      resources:
+        inputs:
+          - name: workspace
+            resource: source-repo
+    - name: app-build-dev
+      conditions:
+        - conditionRef: "is-development"
+          params:
+            - name: "branch"
+              value: "$(params.gitbranch)"
+      taskRef:
+        name: task-new-commit-start-build
+      runAfter:
+        - app-test
+      params:
+        - name: buildconfig
+          value: '{{ $key }}-dev'
+    - name: app-build-pre
+      conditions:
+        - conditionRef: "is-production"
+          params:
+            - name: "branch"
+              value: "$(params.gitbranch)"
+      taskRef:
+        name: task-new-commit-start-build
+      runAfter:
+        - app-test
+      params:
+        - name: buildconfig
+          value: '{{ $key }}-pre'
+{{- end }}
