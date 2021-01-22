@@ -1,0 +1,21 @@
+{{- if $.Values.istio.enabled }}
+{{- range $key, $val := $.Values.global.apps }}
+{{- if $val.public }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ $key }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+      - {{ $key }}-{{ $.Release.Namespace }}.{{ $.Values.appsDomain }}
+{{- end }}
+{{- end }}
+{{- end }}

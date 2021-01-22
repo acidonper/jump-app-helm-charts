@@ -1,0 +1,26 @@
+{{- if eq $.Values.istio.enabled false }}
+{{- range $key, $val := $.Values.global.apps }}
+{{- $versions := ternary "v1 v2" "v1" $val.multiVersions.enabled -}}
+{{- range $version := (split " " $versions) }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ $key }}
+    version: {{ $version }}
+  name: {{ $key }}-{{ $version }}
+spec:
+  ports:
+  {{- range $keysrvport, $valsrvport := $val.servicePorts }}
+    - name: {{ $keysrvport }}
+      port: {{ $valsrvport.port }}
+      protocol: {{ $valsrvport.protocl }}
+      targetPort: {{ $valsrvport.targetPort }}
+  {{- end }}   
+  selector:
+    app: {{ $key }}
+    version: {{ $version }}
+{{- end }}
+{{- end }}
+{{- end }}

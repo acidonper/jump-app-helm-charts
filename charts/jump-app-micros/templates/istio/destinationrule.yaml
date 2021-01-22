@@ -1,0 +1,32 @@
+{{- if $.Values.istio.enabled }}
+{{- range $key, $val := $.Values.global.apps }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ $key }}
+spec:
+  host: {{ $key }}.{{ $.Release.Namespace }}.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+{{- if $val.multiVersions.enabled }}
+  - name: v2
+    labels:
+      version: v2
+{{- end }}
+{{- end }}
+{{- if $.Values.istio.mtls }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ $.Release.Namespace }}-mtls
+spec:
+  host: "*.{{ $.Release.Namespace }}.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+{{- end }}
+{{- end }}
