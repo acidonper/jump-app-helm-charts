@@ -1,9 +1,6 @@
 ##
-# Jump App Istio Chart values
+# Jump App CICD Chart values
 ##
-
-# Chart status
-enabled: true
 
 # Type of pipelines
 pipeTypes:
