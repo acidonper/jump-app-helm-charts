@@ -7,14 +7,9 @@ metadata:
 spec:
   serviceAccountName: {{ $.Values.sa }}
   triggers:
-    - name: trigger-{{ $key }}-v1-deploy-dev
+    - name: trigger-{{ $key }}-build
       bindings:
-        - ref: triggerbinding-{{ $key }}-v1-deploy-dev
+        - ref: triggerbinding-{{ $key }}-build
       template:
-        name: triggertemplate-{{ $key }}-v1-deploy-dev
-    - name: trigger-{{ $key }}-v1-deploy-pre-promote-pro
-      bindings:
-        - ref: triggerbinding-{{ $key }}-v1-deploy-pre-promote-pro
-      template:
-        name: triggertemplate-{{ $key }}-v1-deploy-pre-promote-pro
+        name: triggertemplate-{{ $key }}-build
 {{- end }}

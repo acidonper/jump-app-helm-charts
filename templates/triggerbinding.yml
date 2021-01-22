@@ -6,8 +6,17 @@ metadata:
   name: triggerbinding-{{ $key }}-build
 spec:
   params:
-    - name: giturl
+    - name: git-url
       value: $(body.repository.url)
-    - name: gitbranch
+    - name: git-branch
       value: $(body.ref)
+    - name: git-commit
+      value: $(body.head_commit.id)
+    - name: git-commit-message
+      value: $(body.head_commit.message)
+    - name: content-type
+      value: $(header.Content-Type)
+    - name: pusher-name
+      value: $(body.pusher.name)
+
 {{- end }}

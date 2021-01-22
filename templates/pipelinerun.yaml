@@ -8,9 +8,12 @@ metadata:
     "helm.sh/hook-weight": "-5"
   name: pipelinerun-pipeline-{{ $key }}-build-pre
 spec:
+  serviceAccountName: {{ $.Values.sa }}
   params:
-    - name: gitbranch
-      value: master
+    - name: git-branch
+      value: '{{ $.Values.gitBranchPro }}'
+    - name: git-commit
+      value: '{{ $.Values.gitBranchPro }}'
   resources:
     - name: source-repo
       resourceRef:
@@ -26,9 +29,12 @@ metadata:
     "helm.sh/hook-weight": "-5"
   name: pipelinerun-pipeline-{{ $key }}-build-dev
 spec:
+  serviceAccountName: {{ $.Values.sa }}
   params:
-    - name: gitbranch
-      value: develop
+    - name: git-branch
+      value: '{{ $.Values.gitBranchDev }}'
+    - name: git-commit
+      value: '{{ $.Values.gitBranchDev }}'
   resources:
     - name: source-repo
       resourceRef:

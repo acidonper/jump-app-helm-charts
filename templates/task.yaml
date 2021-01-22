@@ -71,15 +71,46 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: task-new-commit-start-build
+  name: task-new-commit-start-build-tag
 spec:
   params:
     - name: buildconfig
       description: The name of the buildconfig
+      type: string
+    - name: commit
+      description: The name of the commit
       type: string
   steps:
     - name: run-new-build
       image: quay.io/openshift/origin-cli:latest
       script: |
           #!/usr/bin/env bash
-          oc start-build bc/"$(params.buildconfig)" -n {{ $.Release.Namespace }} -w
+          oc start-build bc/"$(params.buildconfig)" --commit="$(params.commit)" -n {{ $.Release.Namespace }} -w
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: task-new-commit-image-tag
+spec:
+  resources:
+    inputs:
+      - name: workspace
+        type: git
+        targetPath: git-app
+  params:
+    - name: imagestream
+      description: The name of the imagestream
+      type: string
+    - name: branch
+      description: The name of the branch
+      type: string
+    - name: commit
+      description: The name of the commit
+      type: string
+  steps:
+    - name: run-new-build
+      image: quay.io/openshift/origin-cli:latest
+      script: |
+        #!/usr/bin/env bash
+        oc tag "$(params.imagestream)":"$(params.branch)" "$(params.imagestream)":"$(params.commit)" -n {{ $.Release.Namespace }} 
+      workingDir: /workspace/git-app

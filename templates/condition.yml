@@ -10,7 +10,7 @@ spec:
     image: alpine
     script: |
       #!/bin/sh
-      if echo $(params.branch) | egrep -iq "master"; then
+      if echo $(params.branch) | egrep -iq "{{ $.Values.gitBranchPro }}"; then
         echo "Branch - $(params.branch)"
         exit 0
       else
@@ -30,7 +30,7 @@ spec:
     image: alpine
     script: |
       #!/bin/sh
-      if echo $(params.branch) | egrep -iq "develop"; then
+      if echo $(params.branch) | egrep -iq "{{ $.Values.gitBranchDev }}"; then
         echo "Branch - $(params.branch)"
         exit 0
       else

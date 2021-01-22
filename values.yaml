@@ -12,14 +12,15 @@ pipeTypes:
   - python
   - java
 
+# Production Branch
+gitBranchPro: master
+gitBranchDev: develop
+
 # Tekton service account to trigger builds
 sa: tekton-deployments-admin
 
 # Global variables
 global:
-  # App name
-  appName: jump-app
-
   # Jump microservices settings
   apps:
     front-javascript:
@@ -30,15 +31,11 @@ global:
         - v1
       type: nodejs
       gitRepo: https://github.com/acidonper/react-typescrypt-demo.git
-      gitBranchDev: develop
-      gitBranchPro: master
     back-golang:
       build: dockerfile
       versions:
         - v1
-      gitRepo: https://github.com/acidonper/golang-demo.git
-      gitBranchDev: develop
-      gitBranchPro: master
+      gitRepo: https://github.com/acidonper/golang-demo.git      
       type: golang
     back-python:
       build: is
@@ -47,8 +44,6 @@ global:
       versions:
         - v1
       gitRepo: https://github.com/acidonper/python-demo.git
-      gitBranchDev: develop
-      gitBranchPro: master
       type: python
     back-springboot:
       build: is
@@ -57,6 +52,4 @@ global:
       versions:
         - v1
       gitRepo: https://github.com/acidonper/java-springboot-demo.git
-      gitBranchDev: develop
-      gitBranchPro: master
       type: java

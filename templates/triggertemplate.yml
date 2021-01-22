@@ -6,8 +6,9 @@ metadata:
   name: triggertemplate-{{ $key }}-build
 spec:
   params:
-    - name: giturl
-    - name: gitbranch
+    - name: git-url
+    - name: git-branch
+    - name: git-commit
   resourcetemplates:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineResource
@@ -17,14 +18,15 @@ spec:
         type: git
         params:
           - name: revision
-            value: $(tt.params.gitbranch)
+            value: $(tt.params.git-commit)
           - name: url
-            value: $(tt.params.giturl)
+            value: $(tt.params.git-url)
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
       metadata:
         name: pipelinerun-{{ $key }}-build-$(uid)
       spec:
+        serviceAccountName: {{ $.Values.sa }}
         pipelineRef:
           name: pipeline-{{ $key }}-build
         resources:
@@ -32,6 +34,8 @@ spec:
             resourceRef:
               name: {{ $key }}-git-repo-$(uid)
         params:
-          - name: gitbranch  
-            value: $(tt.params.gitbranch)
+          - name: git-branch  
+            value: $(tt.params.git-branch)
+          - name: git-commit  
+            value: $(tt.params.git-commit)
 {{- end }}

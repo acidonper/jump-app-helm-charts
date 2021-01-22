@@ -10,7 +10,7 @@ spec:
   - name: url
     value: {{ $val.gitRepo }}
   - name: revision
-    value: {{ $val.gitBranchDev }}
+    value: {{ $.Values.gitBranchDev }}
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
@@ -22,5 +22,5 @@ spec:
   - name: url
     value: {{ $val.gitRepo }}
   - name: revision
-    value: {{ $val.gitBranchPro }}
+    value: {{ $.Values.gitBranchPro }}
 {{- end }}

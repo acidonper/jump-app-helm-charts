@@ -11,13 +11,12 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: {{ $key }}:develop
+      name: {{ $key }}:{{ $.Values.gitBranchDev }}
   postCommit: {}
   resources: {}
   source:
     git:
       uri: {{ $val.gitRepo }}
-      ref: {{ $val.gitBranchDev }}
     type: Git
   strategy:
     {{- if eq $val.build "is" }}
@@ -43,13 +42,12 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: {{ $key }}:master
+      name: {{ $key }}:{{ $.Values.gitBranchPro }}
   postCommit: {}
   resources: {}
   source:
     git:
       uri: {{ $val.gitRepo }}
-      ref: {{ $val.gitBranchPro }}
     type: Git
   strategy:
     {{- if eq $val.build "is" }}
