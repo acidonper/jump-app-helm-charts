@@ -3,23 +3,23 @@ entries:
   jump-app-cicd:
   - apiVersion: v2
     appVersion: 0.1.16
-    created: "2021-01-22T23:16:34.425925066+01:00"
+    created: "2021-01-23T14:11:45.724968+01:00"
     description: A Helm chart to deploy JumpApp's Tekton resources for Kubernetes
-    digest: 005fc1820e8fdf31ff6e006734379918d9c622a9c69b4de6376d612383a048a0
+    digest: aca74cd0a855dfda86cb27d6258dd04a7d3e03fca22ca5e9390ba8261054e1ea
     name: jump-app-cicd
     type: application
     urls:
     - https://acidonper.github.io/jump-app-helm-charts/jump-app-cicd-0.1.0.tgz
     version: 0.1.0
-  jump-app-microservices:
+  jump-app-micros:
   - apiVersion: v2
     appVersion: 0.1.16
-    created: "2021-01-22T23:16:34.426834753+01:00"
+    created: "2021-01-23T14:11:45.72554+01:00"
     description: A Helm chart to deploy JumpApp's Objects for Kubernetes
-    digest: b9e891bace2d13f4ea9ef6fe137d16cc6485aad33956ad6a3a8bc205c560c242
-    name: jump-app-microservices
+    digest: 4d0f289e08c763f1884df5f0b3c264476d17d74a56656dd09d7d07542b049939
+    name: jump-app-micros
     type: application
     urls:
-    - https://acidonper.github.io/jump-app-helm-charts/jump-app-microservices-0.1.0.tgz
+    - https://acidonper.github.io/jump-app-helm-charts/jump-app-micros-0.1.0.tgz
     version: 0.1.0
-generated: "2021-01-22T23:16:34.424119821+01:00"
+generated: "2021-01-23T14:11:45.724361+01:00"
