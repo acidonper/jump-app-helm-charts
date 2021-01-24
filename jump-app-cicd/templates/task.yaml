@@ -114,3 +114,30 @@ spec:
         #!/usr/bin/env bash
         oc tag "$(params.imagestream)":"$(params.branch)" "$(params.imagestream)":"$(params.commit)" -n {{ $.Release.Namespace }} 
       workingDir: /workspace/git-app
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: task-new-commit-image-deploy
+spec:
+  params:
+    - name: app
+      description: The name of the argocdapp
+      type: string
+    - name: image
+      description: The name of the app image
+      type: string
+    - name: commit
+      description: The name of the app commit
+      type: string
+  steps:
+    - name: run-new-build
+      image: quay.io/openshift/origin-cli:latest
+      script: |
+        #!/usr/bin/env bash
+        export ARGOCD_PASS=$(oc get secret argocd-cluster -o jsonpath='{.data.admin\.password}' -n gitops-argocd | base64 -d)
+        curl -sSL -o /tmp/argocd https://github.com/argoproj/argo-cd/releases/download/v1.8.3/argocd-linux-amd64
+        chmod +x /tmp/argocd
+        /tmp/argocd login argocd-server.gitops-argocd.svc.cluster.local:443 --username admin --password $ARGOCD_PASS --insecure
+        /tmp/argocd app set "$(params.app)" -p image="$(params.image)":"$(params.commit)"
+        /tmp/argocd app sync "$(params.app)"
