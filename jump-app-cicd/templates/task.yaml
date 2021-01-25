@@ -141,3 +141,4 @@ spec:
         /tmp/argocd login argocd-server.gitops-argocd.svc.cluster.local:443 --username admin --password $ARGOCD_PASS --insecure
         /tmp/argocd app set "$(params.argoapp)" -p global.apps."$(params.app)".imagetag="$(params.commit)"
         /tmp/argocd app sync "$(params.argoapp)"
+        /tmp/argocd app wait "$(params.argoapp)"
