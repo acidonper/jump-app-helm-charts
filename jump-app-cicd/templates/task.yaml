@@ -186,7 +186,7 @@ spec:
       image: quay.io/openshift/origin-cli:latest
       script: |
         #!/usr/bin/env bash
-        export IMAGE_DEPLOYMENT=$(oc get deployment "$(params.deployment)"-"$(params.version)" -o jsonpath="{..image}" -n "$(params.namespace)")
+        export IMAGE_DEPLOYMENT=`oc get deployment "$(params.deployment)"-"$(params.version)" -o jsonpath="{..image}" -n "$(params.namespace)"`
         if echo $(params.branch) | egrep -iq "$(params.commit)"; then
           echo "OK - Image with commit "$(params.commit)" found"
           exit 0
