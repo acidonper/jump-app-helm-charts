@@ -158,6 +158,14 @@ spec:
       description: The url of the frontend app
       type: string
   steps:
+    - name: npm-install
+      image: node
+      command:
+        - /bin/sh
+        - -c
+      args:
+        - npm install
+      workingDir: /workspace/git-functional-test
     - name: run-new-build
       image: cypress/included:3.2.0
       args: ["--env", "jump_app_url=$(params.appurl)"]
