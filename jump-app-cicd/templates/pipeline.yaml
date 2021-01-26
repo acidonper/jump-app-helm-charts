@@ -125,7 +125,7 @@ spec:
           value: "$(params.git-commit)"
     - name: app-image-deployment-test-pre
       taskRef:
-        name: task-new-commit-image-deployment-correctly-tests
+        name: task-new-commit-image-deployment-test
       runAfter:
         - app-image-deploy-by-argocd-pre
       params:
