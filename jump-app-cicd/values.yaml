@@ -21,6 +21,10 @@ pipeTypes:
 gitBranchPro: master
 gitBranchDev: develop
 
+# Namespaces config 
+namespaceDev: jump-app-dev
+namespacePre: jump-app-pre
+
 # Tekton service account to trigger builds
 sa: tekton-deployments-admin
 

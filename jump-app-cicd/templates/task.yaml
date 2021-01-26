@@ -162,3 +162,35 @@ spec:
       image: cypress/included:3.2.0
       args: ["--env", "jump_app_url=$(params.appurl)"]
       workingDir: /workspace
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: task-new-commit-image-deployment-test
+spec:
+  params:
+    - name: namespace
+      description: The url of the frontend app
+      type: string
+    - name: deployment
+      description: The name of the deployment
+      type: string
+    - name: version
+      description: The name of the deployment version
+      type: string
+    - name: commit
+      description: The name of the commit
+      type: string
+  steps:
+    - name: run-new-build
+      image: quay.io/openshift/origin-cli:latest
+      script: |
+        #!/usr/bin/env bash
+        export IMAGE_DEPLOYMENT=$(oc get deployment "$(params.deployment)"-"$(params.version)" -o jsonpath="{..image}" -n "$(params.namespace)")
+        if echo $(params.branch) | egrep -iq "$(params.commit)"; then
+          echo "OK - Image with commit "$(params.commit)" found"
+          exit 0
+        else
+          echo "FAIL - Image with commit "$(params.commit)" not found"
+          exit 1
+        fi
