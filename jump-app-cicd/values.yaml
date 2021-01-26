@@ -2,6 +2,14 @@
 # Jump App CICD Chart values
 ##
 
+# Public domain where apps will be published
+appsDomain: apps.acidonpe.sandbox1736.opentlc.com
+
+# Functional test repo
+functTestRepo: https://github.com/acidonper/jump-app-functional-tests.git
+functTestRepoBranch: master
+functTestMicro: front-javascript
+
 # Type of pipelines
 pipeTypes:
   - nodejs

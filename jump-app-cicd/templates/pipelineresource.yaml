@@ -24,3 +24,15 @@ spec:
   - name: revision
     value: {{ $.Values.gitBranchPro }}
 {{- end }}
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: functional-tests-git-repo
+spec:
+  type: git
+  params:
+  - name: url
+    value: {{ $val.functTestRepo }}
+  - name: {{ $val.functTestRepoBranch }}
+    value: master

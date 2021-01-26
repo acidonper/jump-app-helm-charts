@@ -18,6 +18,9 @@ spec:
     - name: source-repo
       resourceRef:
         name: {{ $key }}-git-repo-pre
+    - name: functional-test-repo
+      resourceRef:
+        name: functional-tests-git-repo
   pipelineRef:
     name: pipeline-{{ $key }}-build
 ---

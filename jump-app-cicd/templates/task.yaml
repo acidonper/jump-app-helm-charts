@@ -142,3 +142,23 @@ spec:
         /tmp/argocd app set "$(params.argoapp)" -p global.apps."$(params.app)".imagetag="$(params.commit)"
         /tmp/argocd app sync "$(params.argoapp)"
         /tmp/argocd app wait "$(params.argoapp)"
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: task-new-commit-pre-functional-tests
+spec:
+  resources:
+    inputs:
+      - name: workspace
+        type: git
+        targetPath: git-functional-test
+  params:
+    - name: appurl
+      description: The url of the frontend app
+      type: string
+  steps:
+    - name: run-new-build
+      image: cypress/included:3.2.0
+      args: ["--env", "jump_app_url=$(params.appurl)"]
+      workingDir: /workspace/git-functional-test
