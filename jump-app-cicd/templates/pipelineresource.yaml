@@ -33,6 +33,6 @@ spec:
   type: git
   params:
   - name: url
-    value: {{ $val.functTestRepo }}
-  - name: {{ $val.functTestRepoBranch }}
+    value: {{ $.Values.functTestRepo }}
+  - name: {{ $.Values.functTestRepoBranch }}
     value: master
