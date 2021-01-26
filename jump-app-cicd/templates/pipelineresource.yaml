@@ -34,5 +34,5 @@ spec:
   params:
   - name: url
     value: {{ $.Values.functTestRepo }}
-  - name: {{ $.Values.functTestRepoBranch }}
-    value: master
+  - name: revision
+    value: {{ $.Values.functTestRepoBranch }}

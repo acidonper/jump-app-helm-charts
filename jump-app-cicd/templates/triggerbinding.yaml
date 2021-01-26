@@ -18,5 +18,4 @@ spec:
       value: $(header.Content-Type)
     - name: pusher-name
       value: $(body.pusher.name)
-
 {{- end }}
