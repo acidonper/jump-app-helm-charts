@@ -187,7 +187,7 @@ spec:
       script: |
         #!/usr/bin/env bash
         export IMAGE_DEPLOYMENT=`oc get deployment "$(params.deployment)"-"$(params.version)" -o jsonpath="{..image}" -n "$(params.namespace)"`
-        if echo $(params.branch) | egrep -iq "$(params.commit)"; then
+        if echo $IMAGE_DEPLOYMENT | egrep -iq "$(params.commit)"; then
           echo "OK - Image with commit "$(params.commit)" found"
           exit 0
         else
