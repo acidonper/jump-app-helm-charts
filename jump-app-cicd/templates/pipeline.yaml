@@ -149,11 +149,27 @@ spec:
       params:
         - name: appurl
           value: 'https://{{ $.Values.functTestMicro }}-{{ $.Values.namespacePre }}.{{ $.Values.appsDomain }}'
+    - name: app-image-tag-commit-pro
+      taskRef:
+        name: task-new-commit-image-tag
+      resources:
+        inputs:
+          - name: workspace
+            resource: source-repo
+      runAfter:
+        - app-build-pre
+      params:
+        - name: imagestream
+          value: '{{ $key }}'    
+        - name: branch
+          value: "{{ $.Values.gitBranchPro }}"
+        - name: commit
+          value: "production"
     - name: app-image-deploy-by-argocd-pro
       taskRef:
         name: task-new-commit-image-deploy-by-argocd
       runAfter:
-        - app-functional-tests-pre
+        - app-image-tag-commit-pro
       params:
         - name: app
           value: '{{ $key }}'   
