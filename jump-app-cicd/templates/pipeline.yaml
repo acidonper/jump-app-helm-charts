@@ -177,7 +177,7 @@ spec:
           value: "{{ $.Values.namespacePro }}"
         - name: commit
           value: "$(params.git-commit)"
-    - name: app-image-deployment-test-pre
+    - name: app-image-deployment-test-pro
       taskRef:
         name: task-new-commit-image-deployment-test
       runAfter:
