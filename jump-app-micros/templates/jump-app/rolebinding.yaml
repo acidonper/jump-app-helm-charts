@@ -1,12 +1,12 @@
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: tekton-deployments-admin
 subjects:
   - kind: ServiceAccount
     name: tekton-deployments-admin
-    namespace: {{ $.Release.Namespace }}
+    namespace: {{ $.Values.cicd.namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

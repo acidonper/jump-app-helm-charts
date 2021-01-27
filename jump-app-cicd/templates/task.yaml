@@ -158,10 +158,22 @@ spec:
       description: The url of the frontend app
       type: string
   steps:
-    - name: run-cypress-tests
-      image: cypress/included:3.2.0
-      args: ["--env", "jump_app_url=$(params.appurl)"]
-      workingDir: /workspace
+    - name: cypress-install
+      args:
+        - npm install
+      command:
+        - /bin/sh
+        - '-c'
+      image: 'cypress/base:14.15.4'
+      workingDir: /workspace/e2e
+    - name: cypress-run
+      args:
+        - './node_modules/.bin/cypress run --env jump_app_url="$(params.appurl)"'
+      command:
+        - /bin/sh
+        - '-c'
+      image: 'cypress/base:14.15.4'
+      workingDir: /workspace/e2e
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task

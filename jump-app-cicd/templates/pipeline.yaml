@@ -148,5 +148,5 @@ spec:
         - app-image-deployment-test-pre
       params:
         - name: appurl
-          value: '{{ $.Values.functTestMicro }}-{{ $.Values.namespacePre }}.{{ $.Values.appsDomain }}'
+          value: 'https://{{ $.Values.functTestMicro }}-{{ $.Values.namespacePre }}.{{ $.Values.appsDomain }}'
 {{- end }}
