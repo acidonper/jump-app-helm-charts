@@ -151,13 +151,13 @@ spec:
           value: 'https://{{ $.Values.functTestMicro }}-{{ $.Values.namespacePre }}.{{ $.Values.appsDomain }}'
     - name: app-image-tag-commit-pro
       taskRef:
-        name: app-functional-tests-pre
+        name: task-new-commit-image-tag
       resources:
         inputs:
           - name: workspace
             resource: source-repo
       runAfter:
-        - app-build-pre
+        - app-functional-tests-pre
       params:
         - name: imagestream
           value: '{{ $key }}'    
