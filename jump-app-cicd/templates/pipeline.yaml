@@ -201,7 +201,7 @@ spec:
         - name: buildconfig
           value: '{{ $key }}-pre'
         - name: commit
-          value: '{{ $.Values.gitBranchPre }}'
+          value: '{{ $.Values.gitBranchPro }}'
     - name: app-image-tag-pro
       taskRef:
         name: task-new-commit-image-tag
@@ -211,7 +211,7 @@ spec:
         - name: imagestream
           value: '{{ $key }}'   
         - name: branch
-          value: "{{ $.Values.gitBranchPre }}"
-        - name: commit
           value: "{{ $.Values.gitBranchPro }}"
+        - name: commit
+          value: "production"
 {{- end }}
