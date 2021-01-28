@@ -41,10 +41,6 @@ spec:
     - name: app-image-tag-commit-dev
       taskRef:
         name: task-new-commit-image-tag
-      resources:
-        inputs:
-          - name: workspace
-            resource: source-repo
       runAfter:
         - app-build-dev
       params:
@@ -98,10 +94,6 @@ spec:
     - name: app-image-tag-commit-pre
       taskRef:
         name: task-new-commit-image-tag
-      resources:
-        inputs:
-          - name: workspace
-            resource: source-repo
       runAfter:
         - app-build-pre
       params:
@@ -152,10 +144,6 @@ spec:
     - name: app-image-tag-commit-pro
       taskRef:
         name: task-new-commit-image-tag
-      resources:
-        inputs:
-          - name: workspace
-            resource: source-repo
       runAfter:
         - app-functional-tests-pre
       params:
@@ -191,4 +179,39 @@ spec:
           value: "v1"
         - name: commit
           value: "$(params.git-commit)"
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-{{ $key }}-build-init-images
+spec:
+  tasks:
+    - name: app-build-dev
+      taskRef:
+        name: task-new-commit-start-build-tag
+      params:
+        - name: buildconfig
+          value: '{{ $key }}-dev'
+        - name: commit
+          value: '{{ $.Values.gitBranchDev }}'
+    - name: app-build-pre
+      taskRef:
+        name: task-new-commit-start-build-tag
+      params:
+        - name: buildconfig
+          value: '{{ $key }}-pre'
+        - name: commit
+          value: '{{ $.Values.gitBranchPre }}'
+    - name: app-image-tag-pro
+      taskRef:
+        name: task-new-commit-image-tag
+      runAfter:
+        - app-build-pre
+      params:
+        - name: imagestream
+          value: '{{ $key }}'   
+        - name: branch
+          value: "{{ $.Values.gitBranchPre }}"
+        - name: commit
+          value: "{{ $.Values.gitBranchPro }}"
 {{- end }}

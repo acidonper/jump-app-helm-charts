@@ -92,11 +92,6 @@ kind: Task
 metadata:
   name: task-new-commit-image-tag
 spec:
-  resources:
-    inputs:
-      - name: workspace
-        type: git
-        targetPath: git-app
   params:
     - name: imagestream
       description: The name of the imagestream
@@ -113,7 +108,6 @@ spec:
       script: |
         #!/usr/bin/env bash
         oc tag "$(params.imagestream)":"$(params.branch)" "$(params.imagestream)":"$(params.commit)" -n {{ $.Release.Namespace }} 
-      workingDir: /workspace/git-app
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task

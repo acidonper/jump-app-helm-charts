@@ -6,45 +6,9 @@ metadata:
   annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "-5"
-  name: pipelinerun-pipeline-{{ $key }}-build-pre
+  name: pipelinerun-pipeline-{{ $key }}-build-init-images
 spec:
   serviceAccountName: {{ $.Values.sa }}
-  params:
-    - name: git-branch
-      value: '{{ $.Values.gitBranchPro }}'
-    - name: git-commit
-      value: '{{ $.Values.gitBranchPro }}'
-  resources:
-    - name: source-repo
-      resourceRef:
-        name: {{ $key }}-git-repo-pre
-    - name: functional-test-repo
-      resourceRef:
-        name: functional-tests-git-repo
   pipelineRef:
-    name: pipeline-{{ $key }}-build
----
-apiVersion: tekton.dev/v1alpha1
-kind: PipelineRun
-metadata:
-  annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "-5"
-  name: pipelinerun-pipeline-{{ $key }}-build-dev
-spec:
-  serviceAccountName: {{ $.Values.sa }}
-  params:
-    - name: git-branch
-      value: '{{ $.Values.gitBranchDev }}'
-    - name: git-commit
-      value: '{{ $.Values.gitBranchDev }}'
-  resources:
-    - name: source-repo
-      resourceRef:
-        name: {{ $key }}-git-repo-dev
-    - name: functional-test-repo
-      resourceRef:
-        name: functional-tests-git-repo
-  pipelineRef:
-    name: pipeline-{{ $key }}-build
+    name: pipeline-{{ $key }}-build-init-images
 {{- end }}
