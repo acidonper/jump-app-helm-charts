@@ -26,4 +26,5 @@ namespaces:
   - jump-app-pre
   - jump-app-pro
   - jump-app-cicd
+  - istio-system
 

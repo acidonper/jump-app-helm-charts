@@ -22,13 +22,13 @@ helm template . --debug | oc apply -f -
 - Lint
 
 ```$bash
-$ helm lint
+helm lint
 ```
 
 - Render templates Locally
 
 ```$bash
-$ helm template . --debug
+helm template . --debug
 ```
 
 ## Author Information
