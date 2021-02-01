@@ -16,8 +16,10 @@ spec:
       app: {{ $key }}
   template:
     metadata:
+      {{- if $.Values.istio.enabled }}
       annotations:
         sidecar.istio.io/inject: "true"
+      {{- end }}
       labels:
         name: {{ $key }}-{{ $version }}
         app: {{ $key }}
