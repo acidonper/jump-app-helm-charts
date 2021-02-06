@@ -4,7 +4,7 @@
 
 # Istio Settings
 istio: 
-  enabled: false
+  enabled: true
   namespace: istio-system
   mtls: true
 
@@ -12,11 +12,12 @@ istio:
 cicd:
   namespace: jump-app-cicd
 
-# Public domain where apps will be published
-appsDomain: apps.acidonpe.sandbox1736.opentlc.com
-
 # Global variables
 global:
+
+  # Public domain where apps will be published
+  appsDomain: apps.acidonpe.sandbox1736.opentlc.com
+
   apps:
     front-javascript:
       imagetag: develop

@@ -8,7 +8,7 @@ metadata:
   name: {{ $key }}-{{ $.Release.Namespace }}
   namespace: {{ $.Values.istio.namespace }}
 spec:
-  host: {{ $key }}-{{ $.Release.Namespace }}.{{ $.Values.appsDomain }}
+  host: {{ $key }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}
   to:
     kind: Service
     name: istio-ingressgateway

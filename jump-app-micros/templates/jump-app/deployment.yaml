@@ -48,7 +48,7 @@ spec:
         {{- if $val.backend }}
             {{- if $.Values.istio.enabled }}
           - name: REACT_APP_BACK
-            value: https://{{ $val.backend }}-{{ $.Release.Namespace }}.{{ $.Values.appsDomain }}/jump
+            value: https://{{ $val.backend }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}/jump
           - name: REACT_APP_GOLANG
             value: http://back-golang:8442
           - name: REACT_APP_SPRINGBOOT
@@ -57,7 +57,7 @@ spec:
             value: http://back-python:8444
             {{- else }}
           - name: REACT_APP_BACK
-            value: https://{{ $val.backend }}-{{ $version }}-{{ $.Release.Namespace }}.{{ $.Values.appsDomain }}/jump
+            value: https://{{ $val.backend }}-{{ $version }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}/jump
           - name: REACT_APP_GOLANG
             value: http://back-golang-{{ $version }}:8442
           - name: REACT_APP_SPRINGBOOT

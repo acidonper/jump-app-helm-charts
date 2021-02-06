@@ -15,7 +15,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-      - {{ $key }}-{{ $.Release.Namespace }}.{{ $.Values.appsDomain }}
+      - {{ $key }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}
 {{- end }}
 {{- end }}
 {{- end }}

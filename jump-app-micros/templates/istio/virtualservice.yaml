@@ -10,7 +10,9 @@ spec:
   - {{ $key }}
   - mesh
   hosts:
-  - {{ $key }}-{{ $.Release.Namespace }}.{{ $.Values.appsDomain }}
+{{- if $val.public }}
+  - {{ $key }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}
+{{- end }}
   - {{ $key }}.{{ $.Release.Namespace }}.svc.cluster.local
   - {{ $key }}
   http:
