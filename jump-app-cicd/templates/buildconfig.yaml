@@ -17,8 +17,8 @@ spec:
   source:
     git:
       uri: {{ $val.gitRepo }}
+      ref: {{ $.Values.gitBranchDev }}
     type: Git
-    ref: {{ $.Values.gitBranchDev }}
   strategy:
     {{- if eq $val.build "is" }}
     sourceStrategy:
