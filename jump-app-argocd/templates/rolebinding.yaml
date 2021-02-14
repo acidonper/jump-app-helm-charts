@@ -11,6 +11,19 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: secret-reader
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tekton-pipeline-view
+subjects:
+  - kind: User
+    apiGroup: rbac.authorization.k8s.io
+    name: 'system:serviceaccount:jump-app-cicd:pipeline'
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: secret-reader
 {{- range $ns := $.Values.namespaces }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
