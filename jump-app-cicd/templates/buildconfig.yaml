@@ -18,6 +18,7 @@ spec:
     git:
       uri: {{ $val.gitRepo }}
     type: Git
+    ref: {{ $.Values.gitBranchDev }}
   strategy:
     {{- if eq $val.build "is" }}
     sourceStrategy:
@@ -48,6 +49,7 @@ spec:
   source:
     git:
       uri: {{ $val.gitRepo }}
+      ref: {{ $.Values.gitBranchPro }}
     type: Git
   strategy:
     {{- if eq $val.build "is" }}
