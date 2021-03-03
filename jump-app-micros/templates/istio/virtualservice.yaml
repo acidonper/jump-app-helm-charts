@@ -7,7 +7,9 @@ metadata:
   name: {{ $key }}
 spec:
   gateways:
+{{- if $val.public }}
   - {{ $key }}
+{{- end }}
   - mesh
   hosts:
 {{- if $val.public }}
