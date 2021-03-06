@@ -10,3 +10,23 @@ spec:
   lookupPolicy:
     local: false
 {{- end }}
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: quarkus
+  namespace: openshift
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - annotations: null
+    from:
+      kind: DockerImage
+      name: quay.io/quarkus/ubi-quarkus-native-s2i:20.2.0-java11
+    generation: 1
+    importPolicy: {}
+    name: 20.2.0-java11
+    referencePolicy:
+      type: Source
+  
