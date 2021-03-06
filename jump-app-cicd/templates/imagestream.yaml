@@ -15,7 +15,6 @@ apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
   name: quarkus
-  namespace: openshift
 spec:
   lookupPolicy:
     local: false

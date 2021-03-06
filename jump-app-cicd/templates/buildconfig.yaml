@@ -25,7 +25,7 @@ spec:
       from:
         kind: ImageStreamTag
         name: {{ $val.imagestream }}
-        namespace: {{ $val.imagestreamNamespace }}
+        namespace: {{ default $.Release.Namespace $val.imagestreamNamespace}}
     type: Source
     {{- else }}
     dockerStrategy: {}

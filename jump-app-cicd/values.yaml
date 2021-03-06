@@ -40,13 +40,13 @@ global:
       imagestreamNamespace: openshift
       versions:
         - v1
+      gitRepo: https://github.com/acidonper/jump-app-typescrypt-react.git
       type: nodejs
-      gitRepo: https://github.com/acidonper/react-typescrypt-demo.git
     back-golang:
       build: dockerfile
       versions:
         - v1
-      gitRepo: https://github.com/acidonper/golang-demo.git      
+      gitRepo: https://github.com/acidonper/jump-app-golang.git
       type: golang
     back-python:
       build: is
@@ -54,13 +54,20 @@ global:
       imagestreamNamespace: openshift
       versions:
         - v1
-      gitRepo: https://github.com/acidonper/python-demo.git
+      gitRepo: https://github.com/acidonper/jump-app-python.git
       type: python
     back-springboot:
       build: is
-      imagestream: quarkus:20.2.0-java11
+      imagestream: java:latest
       imagestreamNamespace: openshift
       versions:
         - v1
-      gitRepo: https://github.com/acidonper/java-springboot-demo.git
+      gitRepo: https://github.com/acidonper/jump-app-java-springboot.git
+      type: java
+    back-quarkus:
+      build: is
+      imagestream: quarkus:20.2.0-java11
+      versions:
+        - v1
+      gitRepo: https://github.com/acidonper/jump-app-quarkus.git
       type: java
