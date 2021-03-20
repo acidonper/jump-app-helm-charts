@@ -1,44 +1,37 @@
 {{- range $key, $val := $.Values.global.apps }}
 {{- $versions := ternary "v1 v2" "v1" $val.multiVersions.enabled }}
-{{- if not $val.knative }}
+{{- if $val.knative }}
 {{- range $version := (split " " $versions) }}
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: serving.knative.dev/v1
+kind: Service
 metadata:
   labels:
     app: {{ $key }}
     version: {{ $version }}
+    networking.knative.dev/visibility: cluster-local
   name: {{ $key }}-{{ $version }}
 spec:
-  replicas: {{ $val.replicas }}
-  selector:
-    matchLabels:
-      app: {{ $key }}
   template:
-    metadata:
-      {{- if $.Values.istio.enabled }}
-      annotations:
-        sidecar.istio.io/inject: "true"
-      {{- end }}
-      labels:
-        name: {{ $key }}-{{ $version }}
-        app: {{ $key }}
-        version: {{ $version }}
     spec:
+      timeoutSeconds: 300
+      containerConcurrency: 0
       containers:
-{{- if contains "v1" $version }}
+      {{- if contains "v1" $version }}
       - image: image-registry.openshift-image-registry.svc:5000/{{ $.Values.cicd.namespace }}/{{ $key }}:{{ $val.imagetag }}
-{{- else if contains "v2" $version }}
+      {{- else if contains "v2" $version }}
       - image: image-registry.openshift-image-registry.svc:5000/{{ $.Values.cicd.namespace }}/{{ $key }}:{{ $val.multiVersions.imagetag }}
-{{- end }}
-        imagePullPolicy: Always
+      {{- end }}
         name: {{ $key }}-{{ $version }}
         ports:
         {{- range $keyport, $valport := $val.containerPorts }}
           - containerPort: {{ $valport.containerPort }}
             protocol: {{ $valport.protocol }}
         {{- end }}
+        readinessProbe:
+          successThreshold: 1
+          tcpSocket:
+            port: 0
         resources: {}
 {{- if $val.envVars }}
         env:
