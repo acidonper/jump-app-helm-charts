@@ -9,7 +9,9 @@ metadata:
   labels:
     app: {{ $key }}
     version: {{ $version }}
+    {{- if not $val.public }}
     networking.knative.dev/visibility: cluster-local
+    {{- end }}
   name: {{ $key }}-{{ $version }}
 spec:
   template:

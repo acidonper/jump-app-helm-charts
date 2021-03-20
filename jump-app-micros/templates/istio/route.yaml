@@ -1,5 +1,6 @@
 {{- if $.Values.istio.enabled }}
 {{- range $key, $val := $.Values.global.apps }}
+{{- if not $val.knative }}
 {{- if $val.public }}
 ---
 apiVersion: route.openshift.io/v1
@@ -17,6 +18,7 @@ spec:
     insecureEdgeTerminationPolicy: Redirect
   port:
     targetPort: http2
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
