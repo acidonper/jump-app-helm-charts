@@ -1,6 +1,7 @@
 {{- if eq $.Values.istio.enabled false }}
 {{- range $key, $val := $.Values.global.apps }}
 {{- if $val.public }}
+{{- if not $val.knative }}
 {{- $versions := ternary "v1 v2" "v1" $val.multiVersions.enabled -}}
 {{- range $version :=  (split " " $versions) }}
 ---
@@ -34,6 +35,7 @@ spec:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

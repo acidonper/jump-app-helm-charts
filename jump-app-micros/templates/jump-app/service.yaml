@@ -1,5 +1,6 @@
 {{- if eq $.Values.istio.enabled false }}
 {{- range $key, $val := $.Values.global.apps }}
+{{- if not $val.knative }}
 {{- $versions := ternary "v1 v2" "v1" $val.multiVersions.enabled -}}
 {{- range $version := (split " " $versions) }}
 ---
@@ -21,6 +22,7 @@ spec:
   selector:
     app: {{ $key }}
     version: {{ $version }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
