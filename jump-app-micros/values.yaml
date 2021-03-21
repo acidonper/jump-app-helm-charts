@@ -3,6 +3,7 @@
 ##
 
 # Istio Settings
+# WARNING: knative integration -> NOT TESTED YET
 istio: 
   enabled: false
   namespace: istio-system
@@ -38,6 +39,7 @@ global:
       public: true
       routeTargetPort: http-8080
       backend: back-golang
+      # knative: true - NOT TESTED YET
     back-golang:
       imagetag: develop
       multiVersions: 
@@ -62,6 +64,7 @@ global:
       frontSettings:
         var: REACT_APP_GOLANG
         port: 8442
+      # knative: true - NOT TESTED YET
     back-python:
       imagetag: develop
       multiVersions: 
@@ -119,6 +122,7 @@ global:
       frontSettings:
         var: REACT_APP_SPRINGBOOT
         port: 8443
+      # knative: true - NOT TESTED YET
     # back-quarkus:
     #   imagetag: develop
     #   multiVersions:
@@ -138,3 +142,6 @@ global:
     #   public: false
     #   routeTargetPort: http-8080
     #   knative: true
+    #   frontSettings:
+    #     var: REACT_APP_QUARKUS
+    #     port: 8080
