@@ -1,7 +1,60 @@
 {{- range $key, $val := $.Values.global.apps }}
 {{- $versions := ternary "v1 v2" "v1" $val.multiVersions.enabled }}
 {{- if $val.knative }}
-{{- range $version := (split " " $versions) }}
+{{- if $.Values.istio.enabled }}
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  labels:
+    app: {{ $key }}
+    {{- if not $val.public }}
+    networking.knative.dev/visibility: cluster-local
+    {{- end }}
+  name: {{ $key }}
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        name: {{ $key }}
+        app: {{ $key }}
+    spec:
+      timeoutSeconds: 300
+      containerConcurrency: 0
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/{{ $.Values.cicd.namespace }}/{{ $key }}:{{ $val.imagetag }}
+        name: {{ $key }}
+        ports:
+        {{- range $keyport, $valport := $val.containerPorts }}
+          - containerPort: {{ $valport.containerPort }}
+            protocol: {{ $valport.protocol }}
+        {{- end }}
+        readinessProbe:
+          successThreshold: 1
+          tcpSocket:
+            port: 0
+        resources: {}
+    {{- if $val.envVars }}
+        env:
+        {{- range $keyenvvar, $valueenvvar := $val.envVars }}  
+          - name: {{ $keyenvvar }}
+            value: {{ $valueenvvar }}
+        {{- end }}
+        {{- if $val.backend }}
+          - name: REACT_APP_BACK
+            value: https://{{ $val.backend }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}/jump
+            {{- range $appkey, $appval := $.Values.global.apps }}
+              {{- if $appval.frontSettings }}
+          - name: {{ $appval.frontSettings.var }}
+            value: http://{{ $appkey }}:{{ $appval.frontSettings.port }}
+              {{- end }}
+            {{- end }}
+        {{- end }}
+    {{- end }}
+{{- else }}
+  {{- range $version := (split " " $versions) }}
 ---
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -16,10 +69,6 @@ metadata:
 spec:
   template:
     metadata:
-      {{- if $.Values.istio.enabled }}
-      annotations:
-        sidecar.istio.io/inject: "true"
-      {{- end }}
       labels:
         name: {{ $key }}-{{ $version }}
         app: {{ $key }}
@@ -44,34 +93,28 @@ spec:
           tcpSocket:
             port: 0
         resources: {}
-{{- if $val.envVars }}
+    {{- if $val.envVars }}
         env:
         {{- range $keyenvvar, $valueenvvar := $val.envVars }}  
           - name: {{ $keyenvvar }}
             value: {{ $valueenvvar }}
         {{- end }}
         {{- if $val.backend }}
-            {{- if $.Values.istio.enabled }}
-          - name: REACT_APP_BACK
-            value: https://{{ $val.backend }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}/jump
-          - name: REACT_APP_GOLANG
-            value: http://back-golang:8442
-          - name: REACT_APP_SPRINGBOOT
-            value: http://back-springboot:8443
-          - name: REACT_APP_PYTHON
-            value: http://back-python:8444
-            {{- else }}
           - name: REACT_APP_BACK
             value: https://{{ $val.backend }}-{{ $version }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}/jump
-          - name: REACT_APP_GOLANG
-            value: http://back-golang-{{ $version }}:8442
-          - name: REACT_APP_SPRINGBOOT
-            value: http://back-springboot-{{ $version }}:8443
-          - name: REACT_APP_PYTHON
-            value: http://back-python-{{ $version }}:8444
+            {{- range $appkey, $appval := $.Values.global.apps }}
+              {{- if $appval.frontSettings }}
+          - name: {{ $appval.frontSettings.var }}
+                {{- if $appval.knative }}
+            value: http://{{ $appkey }}-{{ $version }}.{{ $.Release.Namespace }}.svc.cluster.local
+                {{- else }}
+            value: http://{{ $appkey }}-{{ $version }}:{{ $appval.frontSettings.port }}
+                {{- end }}
+              {{- end }}
             {{- end }}
         {{- end }}
-{{- end }}
+    {{- end }}
+  {{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

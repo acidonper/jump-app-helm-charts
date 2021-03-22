@@ -1,5 +1,6 @@
 {{- if $.Values.istio.enabled }}
 {{- range $key, $val := $.Values.global.apps }}
+{{- if not $val.knative }}
 ---
 apiVersion: v1
 kind: Service
@@ -17,5 +18,6 @@ spec:
   {{- end }}   
   selector:
     app: {{ $key }}
+{{- end }}
 {{- end }}
 {{- end }}
