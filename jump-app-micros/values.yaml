@@ -3,11 +3,14 @@
 ##
 
 # Istio Settings
-# WARNING: knative integration -> NOT TESTED YET
 istio: 
   enabled: false
   namespace: istio-system
   mtls: true
+
+# Knative Settings
+knative: 
+  enabled: true
 
 # CICD Settings
 cicd:

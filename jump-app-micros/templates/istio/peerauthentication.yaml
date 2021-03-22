@@ -7,6 +7,10 @@ metadata:
   name: default
 spec:
   mtls:
+  {{- if $.Values.knative.enabled }}
+    mode: PERMISSIVE
+  {{- else}}
     mode: STRICT
+  {{- end }}
 {{- end }}
 {{- end }}
