@@ -8,10 +8,7 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: "knative-serving"
-    - namespaceSelector:
-        matchLabels:
-          name: "knative-serving-ingress"
+          serving.knative.openshift.io/system-namespace: "true"
   podSelector: {}
   policyTypes:
   - Ingress
