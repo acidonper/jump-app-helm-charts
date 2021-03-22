@@ -15,6 +15,15 @@ metadata:
   name: {{ $key }}-{{ $version }}
 spec:
   template:
+    metadata:
+      {{- if $.Values.istio.enabled }}
+      annotations:
+        sidecar.istio.io/inject: "true"
+      {{- end }}
+      labels:
+        name: {{ $key }}-{{ $version }}
+        app: {{ $key }}
+        version: {{ $version }}
     spec:
       timeoutSeconds: 300
       containerConcurrency: 0
