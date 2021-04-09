@@ -3,7 +3,7 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: eventlistener-{{ $key }}-v1-deploy
+  name: el-{{ $key }}
 spec:
   to:
     kind: Service
