@@ -10,7 +10,7 @@ istio:
 
 # Knative Settings
 knative: 
-  enabled: true
+  enabled: false
 
 # CICD Settings
 cicd:
