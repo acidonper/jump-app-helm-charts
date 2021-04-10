@@ -64,10 +64,10 @@ global:
         - v1
       gitRepo: https://github.com/acidonper/jump-app-java-springboot.git
       type: java
-    back-quarkus:
-      build: is
-      imagestream: quarkus:20.2.0-java11
-      versions:
-        - v1
-      gitRepo: https://github.com/acidonper/jump-app-quarkus.git
-      type: java
+    # back-quarkus:
+    #   build: is
+    #   imagestream: quarkus:20.2.0-java11
+    #   versions:
+    #     - v1
+    #   gitRepo: https://github.com/acidonper/jump-app-quarkus.git
+    #   type: java
