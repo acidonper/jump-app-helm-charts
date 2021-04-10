@@ -147,4 +147,4 @@ global:
     #   knative: true
     #   frontSettings:
     #     var: REACT_APP_QUARKUS
-    #     port: 8080
+    #     port: 8445
