@@ -11,5 +11,5 @@ spec:
       bindings:
         - ref: triggerbinding-{{ $key }}-build
       template:
-        name: triggertemplate-{{ $key }}-build
+        ref: triggertemplate-{{ $key }}-build
 {{- end }}
