@@ -1,4 +1,5 @@
 {{- if $.Values.knative.enabled }}
+{{- if $.Values.istio.enabled }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -13,4 +14,5 @@ spec:
   podSelector: {}
   policyTypes:
   - Ingress
+{{- end }}
 {{- end }}
