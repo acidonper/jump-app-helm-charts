@@ -22,6 +22,7 @@ gitBranchDev: develop
 namespaceDev: jump-app-dev
 namespacePre: jump-app-pre
 namespacePro: jump-app-pro
+namespaceGitOps: gitops-argocd
 
 # Tekton service account to trigger builds
 sa: tekton-deployments-admin
