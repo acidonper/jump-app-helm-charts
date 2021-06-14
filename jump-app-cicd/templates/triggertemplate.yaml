@@ -13,7 +13,7 @@ spec:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineResource
       metadata:
-        name: {{ $key }}-git-repo-$(uid)
+        name: code-$(uid)
       spec:
         type: git
         params:
@@ -24,7 +24,7 @@ spec:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineResource
       metadata:
-        name: {{ $key }}-functional-test-repo-$(uid)
+        name: tests-$(uid)
       spec:
         type: git
         params:
@@ -35,7 +35,7 @@ spec:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
       metadata:
-        name: pipelinerun-{{ $key }}-build-$(uid)
+        name: run-{{ $key }}-$(uid)
       spec:
         serviceAccountName: {{ $.Values.sa }}
         pipelineRef:
@@ -43,10 +43,10 @@ spec:
         resources:
           - name: source-repo
             resourceRef:
-              name: {{ $key }}-git-repo-$(uid)
+              name: code-$(uid)
           - name: functional-test-repo
             resourceRef:
-              name: {{ $key }}-functional-test-repo-$(uid)
+              name: tests-$(uid)
         params:
           - name: git-branch  
             value: $(tt.params.git-branch)
