@@ -16,6 +16,11 @@ spec:
     repoURL: '{{ $.Values.helmRepoUrl }}'
     targetRevision: '{{ $val.branch }}'
   project: jump-app
+  ignoreDifferences:
+  - group: image.openshift.io
+    kind: ImageStream
+    jsonPointers:
+      - /spec/tags
 {{- else }}
 ---
 apiVersion: argoproj.io/v1alpha1
