@@ -6,6 +6,6 @@ metadata:
   name: default
 spec:
   controlPlaneRef:
-    name: basic
+    name: {{ $.Values.istio.controlplane }}
     namespace: {{ $.Values.istio.namespace }}
 {{- end }}

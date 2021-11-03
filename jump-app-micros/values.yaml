@@ -6,6 +6,7 @@
 istio: 
   enabled: false
   namespace: istio-system
+  controlplane: basic
   mtls: true
 
 # Knative Settings
