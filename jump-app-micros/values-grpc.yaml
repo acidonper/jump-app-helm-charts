@@ -78,6 +78,7 @@ global:
       replicas: 1
       envVars:
         APP_REF_NAME: jump-app
+        PYTHONPATH: ./grpcserver
       containerPorts:
         http:
           containerPort: 50052
