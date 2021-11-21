@@ -47,6 +47,10 @@ helm install jump-app-test-1 . --dry-run --debug --namespace test-dev --create-n
 helm template . --debug
 ```
 
+## gRPC Support
+
+Jump App supports gRPC connections in order to be able to test Istio advanced features related this protocol. A new variables file named _values-grpc.yaml_ contains the Jump App definition parameters to deploy the application with gRPC support.
+
 ## Author Information
 
 Asier Cidon

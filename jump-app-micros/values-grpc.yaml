@@ -21,7 +21,7 @@ cicd:
 # GRPC Settings
 # WARNING -> gRPC and Knative enabled are not supported
 grpc:
-  enabled: false
+  enabled: true
 
 # Global variables
 global:
@@ -53,28 +53,24 @@ global:
     back-golang:
       imagetag: develop
       multiVersions: 
-        enabled: true
-        imagetag: develop
-        v1Traffic: 50
-        v2Traffic: 50
+        enabled: false
       replicas: 1
       envVars:
         APP_REF_NAME: jump-app
       containerPorts:
         http:
-          containerPort: 8442
+          containerPort: 50051
           protocol: TCP
       servicePorts:
-        http-8442:
-          port: 8442
+        tcp-50051:
+          port: 50051
           protocol: TCP
-          targetPort: 8442
+          targetPort: 50051
       public: true
-      routeTargetPort: http-8442
+      routeTargetPort: tcp-50051
       frontSettings:
         var: REACT_APP_GOLANG
-        port: 8442
-      # knative: true 
+        port: 50051
     back-python:
       imagetag: develop
       multiVersions: 
@@ -84,19 +80,18 @@ global:
         APP_REF_NAME: jump-app
       containerPorts:
         http:
-          containerPort: 8080
+          containerPort: 50052
           protocol: TCP
       servicePorts:
-        http-8444:
-          port: 8444
+        tcp-50052:
+          port: 50052
           protocol: TCP
-          targetPort: 8080
+          targetPort: 50052
       public: false
       routeTargetPort: http-8444
-      # knative: true
       frontSettings:
         var: REACT_APP_PYTHON
-        port: 8444
+        port: 50052
     back-springboot:
       imagetag: develop
       multiVersions: 
@@ -105,39 +100,16 @@ global:
       envVars:
         APP_REF_NAME: jump-app
       containerPorts:
-        https:
-          containerPort: 8443
+        http:
+          containerPort: 50053
           protocol: TCP
       servicePorts:
-        http-8443:
-          port: 8443
+        tcp-50053:
+          port: 50053
           protocol: TCP
-          targetPort: 8443
+          targetPort: 50053
       public: false
       routeTargetPort: http-8443
       frontSettings:
         var: REACT_APP_SPRINGBOOT
-        port: 8443
-      # knative: true
-    # back-quarkus:
-    #   imagetag: develop
-    #   multiVersions:
-    #     enabled: false
-    #   replicas: 2
-    #   envVars:
-    #     APP_REF_NAME: jump-app
-    #   containerPorts:
-    #     http:
-    #       containerPort: 8080
-    #       protocol: TCP
-    #   servicePorts:
-    #     http-8445:
-    #       port: 8445
-    #       protocol: TCP
-    #       targetPort: 8080
-    #   public: false
-    #   routeTargetPort: http-8080
-    #   knative: true
-    #   frontSettings:
-    #     var: REACT_APP_QUARKUS
-    #     port: 8445
+        port: 50053

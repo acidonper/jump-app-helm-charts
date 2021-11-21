@@ -14,8 +14,13 @@ spec:
     kind: Service
     name: istio-ingressgateway
   tls:
+    {{- if not $.Values.grpc.enabled }}
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
+    {{- else }}
+    termination: passthrough 
+    insecureEdgeTerminationPolicy: None
+    {{- end }}
   port:
     targetPort: http2
 {{- end }}
