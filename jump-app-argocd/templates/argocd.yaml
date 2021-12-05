@@ -7,4 +7,5 @@ spec:
   server:
     route:
       enabled: true
-
+  dex:
+    openShiftOAuth: true
