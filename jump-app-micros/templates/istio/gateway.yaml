@@ -11,9 +11,15 @@ spec:
     istio: ingressgateway
   servers:
     - port:
+    {{- if not $.Values.grpc.enabled }}
         number: 80
         name: http
         protocol: HTTP
+    {{- else }}
+        number: 80
+        name: grpc
+        protocol: GRPC
+    {{- end }}
       hosts:
       - {{ $key }}-{{ $.Release.Namespace }}.{{ $.Values.global.appsDomain }}
 {{- end }}
