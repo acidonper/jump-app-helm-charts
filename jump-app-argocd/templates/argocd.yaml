@@ -9,3 +9,8 @@ spec:
       enabled: true
   dex:
     openShiftOAuth: true
+  rbac:
+    defaultPolicy: ''
+    policy: |
+      g, system:cluster-admins, role:admin
+    scopes: '[groups]'
