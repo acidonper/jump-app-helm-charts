@@ -31,9 +31,15 @@ global:
 
   apps:
     front-javascript:
+      # imagerepo: quay.io/acidonpe/jump-app-front-javascript
+      # imagetag: latest
       imagetag: develop
       multiVersions: 
         enabled: false
+        # enabled: true
+        # imagetag: latest
+        # v1Traffic: 50
+        # v2Traffic: 50
       replicas: 1
       envVars:
         APP_REF_NAME: jump-app
@@ -51,12 +57,15 @@ global:
       backend: back-golang
       # knative: true
     back-golang:
+      # imagerepo: quay.io/acidonpe/jump-app-back-golang
+      # imagetag: latest
       imagetag: develop
       multiVersions: 
-        enabled: true
-        imagetag: develop
-        v1Traffic: 50
-        v2Traffic: 50
+        enabled: false
+          # enabled: true
+          # imagetag: latest
+          # v1Traffic: 50
+          # v2Traffic: 50
       replicas: 1
       envVars:
         APP_REF_NAME: jump-app
@@ -74,11 +83,17 @@ global:
       frontSettings:
         var: REACT_APP_GOLANG
         port: 8442
-      # knative: true 
+      # knative: true
     back-python:
+      # imagerepo: quay.io/acidonpe/jump-app-back-python
+      # imagetag: latest
       imagetag: develop
       multiVersions: 
         enabled: false
+        # enabled: true
+        # imagetag: latest
+        # v1Traffic: 50
+        # v2Traffic: 50
       replicas: 1
       envVars:
         APP_REF_NAME: jump-app
@@ -98,9 +113,15 @@ global:
         var: REACT_APP_PYTHON
         port: 8444
     back-springboot:
+      # imagerepo: quay.io/acidonpe/jump-app-back-springboot
+      # imagetag: latest
       imagetag: develop
       multiVersions: 
         enabled: false
+        # enabled: true
+        # imagetag: latest
+        # v1Traffic: 50
+        # v2Traffic: 50
       replicas: 1
       envVars:
         APP_REF_NAME: jump-app
@@ -120,9 +141,15 @@ global:
         port: 8443
       # knative: true
     # back-quarkus:
+    #   # imagerepo: quay.io/acidonpe/jump-app-back-quarkus
+    #   # imagetag: latest
     #   imagetag: develop
     #   multiVersions:
     #     enabled: false
+    #    # enabled: true
+    #    # imagetag: latest
+    #    # v1Traffic: 50
+    #    # v2Traffic: 50
     #   replicas: 2
     #   envVars:
     #     APP_REF_NAME: jump-app
