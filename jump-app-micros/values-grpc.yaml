@@ -22,6 +22,7 @@ cicd:
 # WARNING -> gRPC and Knative enabled are not supported
 grpc:
   enabled: true
+  ssl: false
 
 # Global variables
 global:
@@ -31,7 +32,8 @@ global:
 
   apps:
     front-javascript:
-      imagetag: develop
+      imagerepo: quay.io/acidonpe/jump-app-front-javascript-grpc
+      imagetag: latest
       multiVersions: 
         enabled: false
       replicas: 1
@@ -51,7 +53,8 @@ global:
       backend: back-golang
       # knative: true
     back-golang:
-      imagetag: develop
+      imagerepo: quay.io/acidonpe/jump-app-back-golang-grpc
+      imagetag: latest
       multiVersions: 
         enabled: false
       replicas: 1
@@ -72,7 +75,8 @@ global:
         var: REACT_APP_GOLANG
         port: 50051
     back-python:
-      imagetag: develop
+      imagerepo: quay.io/acidonpe/jump-app-back-python-grpc
+      imagetag: latest
       multiVersions: 
         enabled: false
       replicas: 1
@@ -94,7 +98,8 @@ global:
         var: REACT_APP_PYTHON
         port: 50052
     back-springboot:
-      imagetag: develop
+      imagerepo: quay.io/acidonpe/jump-app-back-springboot-grpc
+      imagetag: latest
       multiVersions: 
         enabled: false
       replicas: 1
