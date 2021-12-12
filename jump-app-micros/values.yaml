@@ -17,6 +17,10 @@ knative:
 cicd:
   namespace: jump-app-cicd
 
+# Mongo Settings
+mongodb:
+  enabled: false
+
 # Global variables
 global:
 
