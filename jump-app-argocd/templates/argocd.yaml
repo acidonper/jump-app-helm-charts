@@ -1,4 +1,4 @@
-{{- if $.Values.argocdInstance }}
+{{- if not $.Values.argocdOCPInstance }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
