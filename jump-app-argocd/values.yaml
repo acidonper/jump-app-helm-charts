@@ -3,7 +3,7 @@
 ##
 
 # Install an additional ArgoCD instance (*Recommended false when Openshift GitOps operator is installed)
-argocdInstance: false
+argocdInstance: true
 
 # Helm Repo GIT
 helmRepoUrl: https://github.com/acidonper/jump-app-gitops.git
