@@ -140,6 +140,59 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
+  name: argocd-task-sync-and-wait
+spec:
+  params:
+    - description: The name of the argocdapp
+      name: argoapp
+      type: string
+    - description: The name of the app
+      name: app
+      type: string
+    - description: The name of the app commit
+      name: commit
+      type: string
+  stepTemplate:
+    envFrom:
+      - secretRef:
+          name: argocd-env-secret
+  steps:
+    - name: argocd-app-sync
+      image: argoproj/argocd
+      script: |
+        argocd login argocd-server.{{ .Values.namespaceGitOps }}.svc.cluster.local:443 --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --insecure
+        argocd app set "$(params.argoapp)" -p global.apps."$(params.app)".imagetag="$(params.commit)"
+        argocd app sync "$(params.argoapp)"
+        argocd app wait "$(params.argoapp)"
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: argocd-generate-secret
+spec:
+  steps:
+    - image: 'quay.io/openshift/origin-cli:latest'
+      name: generate-argocd-secret
+      resources: {}
+      script: |
+        #!/usr/bin/env bash
+        export ARGOCD_USER=$(echo "admin" | base64)
+        export ARGOCD_PASS=$(oc get secret argocd-cluster -o jsonpath='{.data.admin\.password}' -n {{ .Values.namespaceGitOps }})
+        cat <<EOF > /tmp/secret.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: argocd-env-secret
+        type: Opaque
+        data:
+          ARGOCD_USERNAME: ${ARGOCD_USER}
+          ARGOCD_PASSWORD: ${ARGOCD_PASS}
+        EOF
+        oc apply -f /tmp/secret.yaml
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
   name: task-new-commit-pre-functional-tests
 spec:
   resources:
