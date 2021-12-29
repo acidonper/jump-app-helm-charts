@@ -13,7 +13,7 @@ spec:
   steps:
 {{- if eq $type "nodejs"}}
     - name: npm-install
-      image: node
+      image: ubi8/nodejs-14
       command:
         - /bin/sh
         - -c
@@ -21,7 +21,7 @@ spec:
         - npm install
       workingDir: /workspace/git-app
     - name: npm-test
-      image: node
+      image: ubi8/nodejs-14
       command:
         - /bin/sh
         - -c
