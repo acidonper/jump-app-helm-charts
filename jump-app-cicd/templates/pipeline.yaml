@@ -24,11 +24,11 @@ spec:
           - name: workspace
             resource: source-repo
     - name: app-build-dev
-      conditions:
-        - conditionRef: "is-development"
-          params:
-            - name: "branch"
-              value: "$(params.git-branch)"
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchDev }}"
       taskRef:
         name: task-new-commit-start-build-tag
       runAfter:
@@ -77,11 +77,11 @@ spec:
         - name: commit
           value: "$(params.git-commit)"
     - name: app-build-pre
-      conditions:
-        - conditionRef: "is-production"
-          params:
-            - name: "branch"
-              value: "$(params.git-branch)"
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: task-new-commit-start-build-tag
       runAfter:
