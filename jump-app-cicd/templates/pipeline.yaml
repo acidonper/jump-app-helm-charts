@@ -108,7 +108,7 @@ spec:
           value: "{{ $.Values.gitBranchPro }}"
         - name: commit
           value: "$(params.git-commit)"
-    - name: app-argocd-generate-cred-secret
+    - name: app-argocd-generate-cred-secret-pre
       taskRef:
         name: argocd-generate-secret
       runAfter:
@@ -117,7 +117,7 @@ spec:
       taskRef:
         name: argocd-task-sync-and-wait
       runAfter:
-        - app-argocd-generate-cred-secret
+        - app-argocd-generate-cred-secret-pre
       params:
         - name: app
           value: '{{ $key }}'   
