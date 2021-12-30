@@ -165,7 +165,7 @@ spec:
           value: "production"
     - name: app-image-deploy-by-argocd-pro
       taskRef:
-        name: task-new-commit-image-deploy-by-argocd
+        name: argocd-task-sync-and-wait
       runAfter:
         - app-image-tag-commit-pro
       params:
