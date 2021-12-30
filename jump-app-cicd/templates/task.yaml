@@ -10,6 +10,10 @@ spec:
       - name: workspace
         type: git
         targetPath: git-app
+  stepTemplate:
+    env:
+      - name: HOME
+        value: /workspace
   steps:
 {{- if eq $type "nodejs"}}
     - name: npm-install
@@ -40,7 +44,7 @@ spec:
 {{- end }}
 {{- if eq $type "python"}}
     - name: pip-install
-      image: python
+      image: python:3.8.9
       command:
         - /bin/sh
         - -c
@@ -48,12 +52,12 @@ spec:
         - pip install -r requirements.txt
       workingDir: /workspace/git-app
     - name: python-test
-      image: python
+      image: python:3.8.9
       command:
         - /bin/sh
         - -c
       args:
-        - /tekton/home/.local/bin/pytest -v
+        - /workspace/.local/bin/pytest -v
       workingDir: /workspace/git-app
 {{- end }}
 {{- if eq $type "golang"}}
