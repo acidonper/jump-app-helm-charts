@@ -200,6 +200,10 @@ spec:
       - name: workspace
         type: git
         targetPath: e2e
+  stepTemplate:
+    env:
+      - name: HOME
+        value: /workspace/e2e
   params:
     - name: appurl
       description: The url of the frontend app
