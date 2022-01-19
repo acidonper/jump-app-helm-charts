@@ -43,21 +43,13 @@ spec:
       workingDir: /workspace/git-app
 {{- end }}
 {{- if eq $type "python"}}
-    - name: pip-install
+    - name: pip-install-test
       image: python:3.8.9
       command:
         - /bin/sh
         - -c
       args:
-        - pip install -r requirements.txt
-      workingDir: /workspace/git-app
-    - name: python-test
-      image: python:3.8.9
-      command:
-        - /bin/sh
-        - -c
-      args:
-        - /workspace/.local/bin/pytest -v
+        - pip install -r requirements.txt && pytest -v
       workingDir: /workspace/git-app
 {{- end }}
 {{- if eq $type "golang"}}
