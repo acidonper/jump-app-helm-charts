@@ -10,6 +10,7 @@ istio:
   mtls: true
 
 # Knative Settings
+# WARNING -> gRPC and Knative enabled are not supported
 knative: 
   enabled: false
 
@@ -17,8 +18,14 @@ knative:
 cicd:
   namespace: jump-app-cicd
 
+
 # Mongo Settings
 mongodb:
+  enabled: false
+  
+# GRPC Settings
+# WARNING -> gRPC and Knative enabled are not supported
+grpc:
   enabled: false
 
 # Global variables
@@ -124,28 +131,14 @@ global:
       envVars:
         APP_REF_NAME: jump-app
       containerPorts:
-        http:
-          containerPort: 8080
-          protocol: TCP
         https:
           containerPort: 8443
           protocol: TCP
-        service:
-          containerPort: 8778
-          protocol: TCP
       servicePorts:
-        http-8080:
-          port: 8080
-          protocol: TCP
-          targetPort: 8080
         http-8443:
           port: 8443
           protocol: TCP
           targetPort: 8443
-        http-8778:
-          port: 8778
-          protocol: TCP
-          targetPort: 8778
       public: false
       routeTargetPort: http-8443
       frontSettings:

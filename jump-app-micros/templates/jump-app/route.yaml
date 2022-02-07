@@ -16,8 +16,13 @@ spec:
   port:
     targetPort: {{ $val.routeTargetPort}}
   tls:
+    {{- if not $.Values.grpc.enabled }}
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
+    {{- else }}
+    termination: passthrough 
+    insecureEdgeTerminationPolicy: None
+    {{- end }}
   wildcardPolicy: None
 {{- end }}
 ---
@@ -32,8 +37,13 @@ spec:
   port:
     targetPort: {{ $val.routeTargetPort}}
   tls:
+    {{- if not $.Values.grpc.enabled }}
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
+    {{- else }}
+    termination: passthrough 
+    insecureEdgeTerminationPolicy: None
+    {{- end }}
   wildcardPolicy: None
 {{- end }}
 {{- end }}
