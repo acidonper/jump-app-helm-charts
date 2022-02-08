@@ -4,6 +4,8 @@ apiVersion: maistra.io/v1
 kind: ServiceMeshMember
 metadata:
   name: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
   controlPlaneRef:
     name: {{ $.Values.istio.controlplane }}
