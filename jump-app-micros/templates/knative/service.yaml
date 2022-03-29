@@ -25,7 +25,11 @@ spec:
       timeoutSeconds: 300
       containerConcurrency: 0
       containers:
+      {{- if $val.imagerepo }}
+      - image: {{ $val.imagerepo }}:{{ $val.imagetag }}
+      {{- else }}
       - image: image-registry.openshift-image-registry.svc:5000/{{ $.Values.cicd.namespace }}/{{ $key }}:{{ $val.imagetag }}
+      {{- end }}
         name: {{ $key }}
         ports:
         {{- range $keyport, $valport := $val.containerPorts }}
