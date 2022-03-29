@@ -83,9 +83,17 @@ spec:
       containerConcurrency: 0
       containers:
       {{- if contains "v1" $version }}
+      {{- if $val.imagerepo }}
+      - image: {{ $val.imagerepo }}:{{ $val.imagetag }}
+      {{- else }}
       - image: image-registry.openshift-image-registry.svc:5000/{{ $.Values.cicd.namespace }}/{{ $key }}:{{ $val.imagetag }}
+      {{- end }}
       {{- else if contains "v2" $version }}
+      {{- if $val.imagerepo }}
+      - image: {{ $val.imagerepo }}:{{ $val.multiVersions.imagetag }}
+      {{- else }}
       - image: image-registry.openshift-image-registry.svc:5000/{{ $.Values.cicd.namespace }}/{{ $key }}:{{ $val.multiVersions.imagetag }}
+      {{- end }}
       {{- end }}
         name: {{ $key }}-{{ $version }}
         ports:
