@@ -62,6 +62,8 @@ kind: Task
 metadata:
   name: task-new-commit-start-build-tag
 spec:
+  workspaces:
+    - name: source
   params:
     - name: buildconfig
       description: The name of the buildconfig

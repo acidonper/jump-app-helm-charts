@@ -118,6 +118,9 @@ spec:
           value: '{{ $key }}-pre'
         - name: commit
           value: "$(params.git-commit)"
+      workspaces:
+        - name: source
+          workspace: app-source
     - name: app-image-tag-commit-pre
       taskRef:
         name: task-new-commit-image-tag
