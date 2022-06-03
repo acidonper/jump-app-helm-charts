@@ -5,15 +5,8 @@ kind: Task
 metadata:
   name: task-{{ $type }}-new-commit-test
 spec:
-  resources:
-    inputs:
-      - name: workspace
-        type: git
-        targetPath: git-app
-  stepTemplate:
-    env:
-      - name: HOME
-        value: /workspace
+  workspaces:
+    - name: source
   steps:
 {{- if eq $type "nodejs"}}
     - name: npm-install
@@ -23,7 +16,7 @@ spec:
         - -c
       args:
         - npm install
-      workingDir: /workspace/git-app
+      workingDir: $(workspaces.source.path)
     - name: npm-test
       image: ubi8/nodejs-14
       command:
@@ -31,7 +24,7 @@ spec:
         - -c
       args:
         - npm run test
-      workingDir: /workspace/git-app
+      workingDir: $(workspaces.source.path)
 {{- end }}
 {{- if eq $type "java"}}
     - name: mvn-package
@@ -40,7 +33,7 @@ spec:
         - /usr/bin/mvn
       args:
       - package
-      workingDir: /workspace/git-app
+      workingDir: $(workspaces.source.path)
 {{- end }}
 {{- if eq $type "python"}}
     - name: pip-install-test
@@ -50,7 +43,7 @@ spec:
         - -c
       args:
         - pip install -r requirements.txt && pytest -v
-      workingDir: /workspace/git-app
+      workingDir: $(workspaces.source.path)
 {{- end }}
 {{- if eq $type "golang"}}
     - name: go-test
@@ -60,7 +53,7 @@ spec:
         - -c
       args:
         - make test
-      workingDir: /workspace/git-app
+      workingDir: $(workspaces.source.path)
 {{- end }}
 {{- end }}
 ---
@@ -69,6 +62,8 @@ kind: Task
 metadata:
   name: task-new-commit-start-build-tag
 spec:
+  workspaces:
+    - name: source
   params:
     - name: buildconfig
       description: The name of the buildconfig
@@ -169,7 +164,6 @@ spec:
   steps:
     - image: 'quay.io/openshift/origin-cli:latest'
       name: generate-argocd-secret
-      resources: {}
       script: |
         #!/usr/bin/env bash
         export ARGOCD_USER=$(echo "admin" | base64)
@@ -191,15 +185,12 @@ kind: Task
 metadata:
   name: task-new-commit-pre-functional-tests
 spec:
-  resources:
-    inputs:
-      - name: workspace
-        type: git
-        targetPath: e2e
+  workspaces:
+    - name: source
   stepTemplate:
     env:
       - name: HOME
-        value: /workspace/e2e
+        value: $(workspaces.source.path)
   params:
     - name: appurl
       description: The url of the frontend app
@@ -212,7 +203,7 @@ spec:
         - /bin/sh
         - '-c'
       image: 'cypress/base:14.15.4'
-      workingDir: /workspace/e2e
+      workingDir: $(workspaces.source.path)
     - name: cypress-run
       args:
         - './node_modules/.bin/cypress run --env jump_app_url="$(params.appurl)"'
@@ -220,7 +211,7 @@ spec:
         - /bin/sh
         - '-c'
       image: 'cypress/base:14.15.4'
-      workingDir: /workspace/e2e
+      workingDir: $(workspaces.source.path)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
