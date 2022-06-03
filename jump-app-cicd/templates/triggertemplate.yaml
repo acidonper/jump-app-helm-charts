@@ -11,28 +11,6 @@ spec:
     - name: git-commit
   resourcetemplates:
     - apiVersion: tekton.dev/v1alpha1
-      kind: PipelineResource
-      metadata:
-        name: code-$(uid)
-      spec:
-        type: git
-        params:
-          - name: revision
-            value: $(tt.params.git-commit)
-          - name: url
-            value: $(tt.params.git-url)
-    - apiVersion: tekton.dev/v1alpha1
-      kind: PipelineResource
-      metadata:
-        name: tests-$(uid)
-      spec:
-        type: git
-        params:
-          - name: revision
-            value: {{ $.Values.functTestRepoBranch }}
-          - name: url
-            value: {{ $.Values.functTestRepo }}
-    - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
       metadata:
         name: run-{{ $key }}-$(uid)
@@ -40,16 +18,20 @@ spec:
         serviceAccountName: {{ $.Values.sa }}
         pipelineRef:
           name: pipeline-{{ $key }}-build
-        resources:
-          - name: source-repo
-            resourceRef:
-              name: code-$(uid)
-          - name: functional-test-repo
-            resourceRef:
-              name: tests-$(uid)
         params:
+          - name: app-git-url  
+            value: $(tt.params.git-url)
           - name: git-branch  
             value: $(tt.params.git-branch)
           - name: git-commit  
             value: $(tt.params.git-commit)
+          - name: functTestRepoBranch
+            value: {{ $.Values.functTestRepoBranch }}
+          - name: functTestRepo
+            value: {{ $.Values.functTestRepo }}
+        workspaces:
+          - name: app-source
+            persistentVolumeClaim:
+              claimName: pipeline-{{ $key }}-build-workspace-pvc
+                
 {{- end }}

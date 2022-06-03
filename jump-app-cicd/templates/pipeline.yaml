@@ -5,24 +5,43 @@ kind: Pipeline
 metadata:
   name: pipeline-{{ $key }}-build
 spec:
-  resources:
-    - name: source-repo
-      type: git
-    - name: functional-test-repo
-      type: git
   params:
     - name: git-branch  
       type: string
     - name: git-commit
       type: string
+    - name: app-git-url 
+      type: string
+    - name: functTestRepo 
+      type: string
+    - name: functTestRepoBranch 
+      type: string
+  workspaces:
+   - name: app-source
+ 
   tasks:
+    - name: app-git-clone
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      params:
+      - name: url
+        value: $(params.app-git-url)
+      - name: revision
+        value: $(params.git-commit)
+      - name: deleteExisting
+        value: 'true'
+      workspaces:
+        - name: output
+          workspace: app-source
     - name: app-test
+      runAfter:
+        - app-git-clone
       taskRef:
         name: task-{{ $val.type }}-new-commit-test
-      resources:
-        inputs:
-          - name: workspace
-            resource: source-repo
+      workspaces:
+        - name: source
+          workspace: app-source
     - name: app-build-dev
       when:
         - input: $(params.git-branch)
@@ -38,6 +57,9 @@ spec:
           value: '{{ $key }}-dev'
         - name: commit
           value: "$(params.git-commit)"
+      workspaces:
+        - name: source
+          workspace: app-source
     - name: app-image-tag-commit-dev
       taskRef:
         name: task-new-commit-image-tag
@@ -71,7 +93,7 @@ spec:
       taskRef:
         name: task-new-commit-image-deployment-test
       runAfter:
-        - app-image-deploy-by-argocd-dev
+         - app-image-deploy-by-argocd-dev
       params:
         - name: namespace
           value: "{{ $.Values.namespaceDev }}"
@@ -139,18 +161,33 @@ spec:
           value: "v1"
         - name: commit
           value: "$(params.git-commit)"
+    - name: test-app-git-clone
+      runAfter:
+        - app-image-deployment-test-pre
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      params:
+      - name: url
+        value: $(params.functTestRepo)
+      - name: revision
+        value: $(params.functTestRepoBranch)
+      - name: deleteExisting
+        value: 'true'
+      workspaces:
+        - name: output
+          workspace: app-source
     - name: app-functional-tests-pre
       taskRef:
         name: task-new-commit-pre-functional-tests
-      resources:
-        inputs:
-          - name: workspace
-            resource: functional-test-repo
       runAfter:
-        - app-image-deployment-test-pre
+        - test-app-git-clone
       params:
         - name: appurl
           value: 'https://{{ $.Values.functTestMicro }}-{{ $.Values.namespacePre }}.{{ $.Values.global.appsDomain }}'
+      workspaces:
+        - name: source
+          workspace: app-source
     - name: app-image-tag-commit-pro
       taskRef:
         name: task-new-commit-image-tag
@@ -195,6 +232,8 @@ kind: Pipeline
 metadata:
   name: pipeline-{{ $key }}-build-init-images
 spec:
+  workspaces:
+   - name: app-source
   tasks:
     - name: app-build-dev
       taskRef:
@@ -204,6 +243,9 @@ spec:
           value: '{{ $key }}-dev'
         - name: commit
           value: '{{ $.Values.gitBranchDev }}'
+      workspaces:
+        - name: source
+          workspace: app-source
     - name: app-build-pre
       taskRef:
         name: task-new-commit-start-build-tag
@@ -212,6 +254,9 @@ spec:
           value: '{{ $key }}-pre'
         - name: commit
           value: '{{ $.Values.gitBranchPro }}'
+      workspaces:
+        - name: source
+          workspace: app-source
     - name: app-image-tag-pro
       taskRef:
         name: task-new-commit-image-tag
@@ -224,4 +269,15 @@ spec:
           value: "{{ $.Values.gitBranchPro }}"
         - name: commit
           value: "production"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pipeline-{{ $key }}-build-workspace-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
 {{- end }}
