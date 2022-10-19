@@ -5,9 +5,11 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
   name: {{ $key }}
-  namespace: openshift-marketplace 
+  namespace: openshift-marketplace
+{{- if $.Values.argocd.enabled }}
   annotations:
     argocd.argoproj.io/sync-wave: "-15"
+{{- end }}
 spec:
   sourceType: grpc
   image: {{ $val.image }}

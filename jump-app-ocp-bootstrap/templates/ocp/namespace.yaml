@@ -1,0 +1,13 @@
+{{- range $.Values.namespaces }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ . }}
+{{- if $.Values.argocd.enabled }}
+  labels:
+    argocd.argoproj.io/managed-by: {{ $.Values.argocd.controller }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-15"
+{{- end }}
+---
+{{- end }}

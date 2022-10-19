@@ -5,8 +5,10 @@ kind: KnativeServing
 metadata:
   name: knative-serving
   namespace: knative-serving
+{{- if $.Values.argocd.enabled }}
   annotations:
     argocd.argoproj.io/sync-wave: "-5"
+{{- end }}
 spec: {}
 {{- end }}
 {{- end }}

@@ -2,6 +2,23 @@
 # Jump App Openshift Cluster Bootstrap
 ##
 
+namespaces:
+  - jump-app-dev
+  - jump-app-pre
+  - jump-app-pro
+  - jump-app-cicd
+  - istio-system
+  - openshift-marketplace
+  - openshift-operators
+  - bootstrap
+  - mesh-test
+  - knative-eventing
+  - knative-serving
+
+argocd:
+  enabled: true
+  controller: openshift-gitops
+
 # Custom Catalog Source
 catalogsources:
   jumpapp:
@@ -65,8 +82,6 @@ istio:
   enabled: true
   namespace: istio-system
   controlplane: basic
-  argocd:
-    controller: openshift-gitops
   smcp:
     istiod:
       replicas: 1

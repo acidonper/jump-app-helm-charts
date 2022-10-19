@@ -6,8 +6,10 @@ kind: Subscription
 metadata:
   name: {{ $key }}
   namespace: openshift-operators
+{{- if $.Values.argocd.enabled }}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
+{{- end }}
 spec:
   channel: {{ $val.channel }}
   installPlanApproval: {{ $val.approval }}
