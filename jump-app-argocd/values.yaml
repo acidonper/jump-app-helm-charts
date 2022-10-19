@@ -6,6 +6,9 @@
 argocdOCPInstance: false
 argocdNamespace: openshift-gitops
 
+# RBAC
+clusterRoleAdmin: true
+
 # Helm Repo GIT
 helmRepoUrl: https://github.com/acidonper/jump-app-gitops.git
 
