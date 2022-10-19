@@ -1,0 +1,20 @@
+{{- range $key, $val := $.Values.catalogsources }}
+{{- if $val.enabled }}
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: {{ $key }}
+  namespace: openshift-marketplace 
+  annotations:
+    argocd.argoproj.io/sync-wave: "-15"
+spec:
+  sourceType: grpc
+  image: {{ $val.image }}
+  displayName: {{ $key }}
+  publisher: {{ $val.publisher }} 
+  updateStrategy:
+    registryPoll: 
+      interval: 30m
+{{- end }}
+{{- end }}

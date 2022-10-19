@@ -1,0 +1,21 @@
+{{- range $key, $val := $.Values.operators }}
+{{- if $val.enabled }}
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ $key }}
+  namespace: openshift-operators
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+spec:
+  channel: {{ $val.channel }}
+  installPlanApproval: {{ $val.approval }}
+  name: {{ $val.name }}
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+{{- if $val.csv }}
+  startingCSV: {{ $val.csv }}
+{{- end }}
+{{- end }}
+{{- end }}

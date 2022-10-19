@@ -1,0 +1,48 @@
+{{- if $.Values.istio.enabled }}
+apiVersion: maistra.io/v2
+kind: ServiceMeshControlPlane
+metadata:
+  namespace: {{ $.Values.istio.namespace }}
+  name: {{ $.Values.istio.controlplane }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+spec:
+  runtime:
+    components:
+      pilot:
+        deployment:
+          replicas: {{ $.Values.istio.smcp.istiod.replicas }}
+  tracing:
+    sampling: 10000
+    type: Jaeger
+  gateways:
+    enabled: true
+    egress:
+      enabled: true
+      runtime:
+        deployment:
+          replicas: {{ $.Values.istio.smcp.gateways.egress.replicas }}
+    ingress:
+      enabled: true
+      runtime:
+        deployment:
+          replicas: {{ $.Values.istio.smcp.gateways.ingress.replicas }}
+    openshiftRoute:
+      enabled: false
+  policy:
+    type: Istiod
+  addons:
+    grafana:
+      enabled: true
+    jaeger:
+      install:
+        storage:
+          type: Memory
+    kiali:
+      enabled: true
+    prometheus:
+      enabled: true
+  version: {{ $.Values.istio.smcp.version }}
+  telemetry:
+    type: Istiod
+{{- end }}

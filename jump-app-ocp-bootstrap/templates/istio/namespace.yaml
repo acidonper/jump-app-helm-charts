@@ -1,0 +1,25 @@
+{{- if $.Values.istio.enabled }}
+{{- range $.Values.istio.smmr.namespaces }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ . }}
+{{- if $.Values.istio.argocd }}
+  labels:
+    argocd.argoproj.io/managed-by: {{ $.Values.istio.argocd.controller }}
+{{- end }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-15"
+---
+{{- end }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $.Values.istio.namespace }}
+{{- if $.Values.istio.argocd }}
+  labels:
+    argocd.argoproj.io/managed-by: {{ $.Values.istio.argocd.controller }}
+{{- end }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-15"
+{{- end }}

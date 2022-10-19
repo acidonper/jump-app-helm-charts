@@ -22,6 +22,9 @@ apps:
   jump-app-dev:
     branch: feature/jump-app-dev 
     enabled: false
+  bootstrap:
+    branch: feature/bootstrap
+    enabled: false
 
 # Namespaces handled by Helm
 namespaces:
@@ -30,4 +33,5 @@ namespaces:
   - jump-app-pro
   - jump-app-cicd
   - istio-system
+  - openshift-marketplace
 

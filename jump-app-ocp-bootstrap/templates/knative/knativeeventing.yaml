@@ -1,0 +1,12 @@
+{{- if $.Values.knative.enabled }}
+{{- if $.Values.knative.eventing.enabled }}
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeEventing
+metadata:
+  name: knative-eventing
+  namespace: knative-eventing
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+spec: {}
+{{- end }}
+{{- end }}

@@ -1,0 +1,11 @@
+apiVersion: v2
+name: jump-app-ocp-bootstrap
+description: A Helm chart to bootstrap ocp
+type: application
+
+version: 0.1.0
+appVersion: 0.1.16
+
+mantainers:
+  - name: Asier Cidon
+    email: acidonpe@redhat.com
