@@ -26,6 +26,9 @@ apps:
   jump-app-dev:
     branch: feature/jump-app-dev 
     enabled: false
+    # helm:
+    #   valueFiles: 
+    #     - values-quay-sm.yaml
   bootstrap:
     branch: feature/bootstrap
     enabled: false

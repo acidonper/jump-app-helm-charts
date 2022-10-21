@@ -12,6 +12,13 @@ spec:
     namespace: {{ $key }}
     server: 'https://kubernetes.default.svc'
   source:
+{{- if $val.helm }}
+    helm:
+      valueFiles:
+{{- range $val.helm.valueFiles }}
+        - {{ . }}
+{{- end }}
+{{- end }}
     path: .
     repoURL: '{{ $.Values.helmRepoUrl }}'
     targetRevision: '{{ $val.branch }}'
@@ -33,6 +40,13 @@ spec:
     namespace: {{ $key }}
     server: 'https://kubernetes.default.svc'
   source:
+{{- if $val.helm }}
+    helm:
+      valueFiles:
+{{- range $val.helm.valueFiles }}
+        - {{ . }}
+{{- end }}
+{{- end }}
     path: .
     repoURL: '{{ $.Values.helmRepoUrl }}'
     targetRevision: '{{ $val.branch }}'
