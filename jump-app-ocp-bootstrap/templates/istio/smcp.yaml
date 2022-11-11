@@ -14,6 +14,10 @@ spec:
       pilot:
         deployment:
           replicas: {{ $.Values.istio.smcp.istiod.replicas }}
+        container:
+          resources:
+            limits: {{- toYaml $.Values.istio.smcp.istiod.limits | nindent 14  }}
+            requests: {{- toYaml $.Values.istio.smcp.istiod.requests | nindent 14 }}
   tracing:
     sampling: 10000
     type: Jaeger

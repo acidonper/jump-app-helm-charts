@@ -85,6 +85,12 @@ istio:
   smcp:
     istiod:
       replicas: 1
+      limits:
+        cpu: 1000m
+        memory: 1024Mi   
+      requests:
+        cpu: 10m
+        memory: 128Mi      
     gateways:
       ingress:
         replicas: 1
