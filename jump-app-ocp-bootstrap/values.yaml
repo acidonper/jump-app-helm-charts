@@ -12,8 +12,6 @@ namespaces:
   - openshift-operators
   - bootstrap
   - mesh-test
-  - knative-eventing
-  - knative-serving
 
 argocd:
   enabled: true
