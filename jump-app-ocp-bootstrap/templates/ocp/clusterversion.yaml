@@ -5,6 +5,7 @@ metadata:
   name: version
 spec:
   channel: {{ $.Values.ocpversion.channel }}
+  clusterID: {{ $.Values.ocpversion.clusterID }}
   desiredUpdate:
     force: false
     image: {{ $.Values.ocpversion.image }}
