@@ -28,10 +28,6 @@ spec:
     kind: ImageStream
     jsonPointers:
       - /spec/tags
-  - group: config.openshift.io/v1
-    kind: ClusterVersion
-    jsonPointers:
-      - /spec/clusterID
 {{- else }}
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -59,6 +55,11 @@ spec:
     automated:
       prune: false
       selfHeal: false  
+  ignoreDifferences:
+  - group: config.openshift.io/v1
+    kind: ClusterVersion
+    jsonPointers:
+      - /spec/clusterID
 {{- end }}
 {{- end }}
 {{- end }}
