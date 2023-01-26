@@ -1,3 +1,4 @@
+{{- if $.Values.render }}
 {{- range $key, $val := $.Values.operators }}
 {{- if $val.enabled }}
 ---
@@ -18,6 +19,7 @@ spec:
   sourceNamespace: openshift-marketplace
 {{- if $val.csv }}
   startingCSV: {{ $val.csv }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

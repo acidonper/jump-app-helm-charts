@@ -1,3 +1,4 @@
+{{- if $.Values.render }}
 {{- if $.Values.istio.enabled }}
 apiVersion: maistra.io/v1
 kind: ServiceMeshMemberRoll
@@ -12,5 +13,6 @@ spec:
   members:
 {{- range $.Values.istio.smmr.namespaces }}
   - {{ . }}
+{{- end }}
 {{- end }}
 {{- end }}

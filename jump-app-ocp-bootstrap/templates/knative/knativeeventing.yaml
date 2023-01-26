@@ -1,3 +1,4 @@
+{{- if $.Values.render }}
 {{- if $.Values.knative.enabled }}
 {{- if $.Values.knative.eventing.enabled }}
 apiVersion: operator.knative.dev/v1alpha1
@@ -10,5 +11,6 @@ metadata:
     argocd.argoproj.io/sync-wave: "-5"
 {{- end }}
 spec: {}
+{{- end }}
 {{- end }}
 {{- end }}

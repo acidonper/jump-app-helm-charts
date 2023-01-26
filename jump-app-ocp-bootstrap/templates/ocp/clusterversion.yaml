@@ -1,3 +1,4 @@
+{{- if $.Values.render }}
 {{- if $.Values.ocpversion.enabled }}
 apiVersion: config.openshift.io/v1
 kind: ClusterVersion
@@ -10,4 +11,5 @@ spec:
     force: false
     image: {{ $.Values.ocpversion.image }}
     version: {{ $.Values.ocpversion.version }}
+{{- end }}
 {{- end }}

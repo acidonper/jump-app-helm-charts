@@ -4,6 +4,8 @@
 
 # OCP Version management
 
+render: false
+
 ocpversion:
   enabled: false
   channel: "stable-4.11"

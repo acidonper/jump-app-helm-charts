@@ -1,3 +1,4 @@
+{{- if $.Values.render }}
 {{- range $.Values.namespaces }}
 apiVersion: v1
 kind: Namespace
@@ -10,4 +11,5 @@ metadata:
     argocd.argoproj.io/sync-wave: "-15"
 {{- end }}
 ---
+{{- end }}
 {{- end }}

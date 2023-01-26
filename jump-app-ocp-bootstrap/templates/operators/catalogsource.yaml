@@ -1,3 +1,4 @@
+{{- if $.Values.render }}
 {{- range $key, $val := $.Values.catalogsources }}
 {{- if $val.enabled }}
 ---
@@ -18,5 +19,6 @@ spec:
   updateStrategy:
     registryPoll: 
       interval: 30m
+{{- end }}
 {{- end }}
 {{- end }}

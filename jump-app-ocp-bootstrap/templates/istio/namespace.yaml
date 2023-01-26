@@ -1,3 +1,4 @@
+{{- if $.Values.render }}
 {{- if $.Values.istio.enabled }}
 {{- range $.Values.istio.smmr.namespaces }}
 apiVersion: v1
@@ -21,5 +22,6 @@ metadata:
     argocd.argoproj.io/managed-by: {{ $.Values.argocd.controller }}
   annotations:
     argocd.argoproj.io/sync-wave: "-15"
+{{- end }}
 {{- end }}
 {{- end }}
