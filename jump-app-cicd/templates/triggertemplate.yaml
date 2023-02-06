@@ -1,6 +1,6 @@
 {{- range $key, $val := $.Values.global.apps }}
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
 metadata:
   name: tt-{{ $key }}-build
@@ -10,7 +10,7 @@ spec:
     - name: git-branch
     - name: git-commit
   resourcetemplates:
-    - apiVersion: tekton.dev/v1alpha1
+    - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
         name: run-{{ $key }}-$(uid)

@@ -1,6 +1,6 @@
 {{- range $key, $val := $.Values.global.apps }}
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
   name: tb-{{ $key }}-build
