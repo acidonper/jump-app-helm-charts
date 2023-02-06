@@ -18,6 +18,9 @@ spec:
         serviceAccountName: {{ $.Values.sa }}
         pipelineRef:
           name: pipeline-{{ $key }}-build
+        podTemplate:
+          securityContext:
+            fsGroup: 65532
         params:
           - name: app-git-url  
             value: $(tt.params.git-url)
