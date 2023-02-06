@@ -3,7 +3,7 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
 metadata:
-  name: triggerbinding-{{ $key }}-build
+  name: tb-{{ $key }}-build
 spec:
   params:
     - name: git-url

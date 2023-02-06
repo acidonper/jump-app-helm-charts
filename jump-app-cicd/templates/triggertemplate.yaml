@@ -3,7 +3,7 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
-  name: triggertemplate-{{ $key }}-build
+  name: tt-{{ $key }}-build
 spec:
   params:
     - name: git-url

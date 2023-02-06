@@ -20,7 +20,7 @@ spec:
             kind: ClusterInterceptor	
             name: github
       bindings:
-        - ref: triggerbinding-{{ $key }}-build
+        - ref: tb-{{ $key }}-build
       template:
-        ref: triggertemplate-{{ $key }}-build
+        ref: tt-{{ $key }}-build
 {{- end }}
