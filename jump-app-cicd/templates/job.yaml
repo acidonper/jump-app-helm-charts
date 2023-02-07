@@ -1,0 +1,34 @@
+{{- range $key, $val := $.Values.global.apps }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-image-{{ $key }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  parallelism: 1    
+  completions: 1    
+  activeDeadlineSeconds: 1800 
+  backoffLimit: 6   
+  template:         
+    metadata:
+      name: init-image-{{ $key }}
+    spec:
+      containers:
+      - name: tkn
+        image: quay.io/acidonpe/tkn
+        command: 
+          - "tkn"
+          - "pipeline"
+          - "start"
+          - "pipeline-{{ $key }}-build-init-images"
+          - "-w"
+          - "name=app-source,claimName=pipeline-{{ $key }}-build-workspace-pvc"
+      restartPolicy: OnFailure
+{{- end }}
+# tkn pipeline start pipeline-back-golang-build-init-images -w name=app-source,claimName=pipeline-back-golang-build-workspace-pvc
+# tkn pipeline start pipeline-back-golang-build-init-images -w name=app-source,claimName=pipeline-back-golang-build-workspace-pvc
+# tkn pipeline start pipeline-back-springboot-build-init-images -w name=app-source,claimName=pipeline-back-springboot-build-workspace-pvc
+# tkn pipeline start pipeline-back-python-build-init-images -w name=app-source,claimName=pipeline-back-python-build-workspace-pvc
+# tkn pipeline start pipeline-back-quarkus-build-init-images -w name=app-source,claimName=pipeline-back-quarkus-build-workspace-pvc
