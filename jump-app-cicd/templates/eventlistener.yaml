@@ -1,6 +1,6 @@
 {{- range $key, $val := $.Values.global.apps }}
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
   name: listener-{{ $key }}-v1-deploy
@@ -20,7 +20,7 @@ spec:
             kind: ClusterInterceptor	
             name: github
       bindings:
-        - ref: triggerbinding-{{ $key }}-build
+        - ref: tb-{{ $key }}-build
       template:
-        ref: triggertemplate-{{ $key }}-build
+        ref: tt-{{ $key }}-build
 {{- end }}

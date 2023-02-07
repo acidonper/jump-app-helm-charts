@@ -1,16 +1,16 @@
 {{- range $key, $val := $.Values.global.apps }}
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
 metadata:
-  name: triggertemplate-{{ $key }}-build
+  name: tt-{{ $key }}-build
 spec:
   params:
     - name: git-url
     - name: git-branch
     - name: git-commit
   resourcetemplates:
-    - apiVersion: tekton.dev/v1alpha1
+    - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
         name: run-{{ $key }}-$(uid)
@@ -18,6 +18,9 @@ spec:
         serviceAccountName: {{ $.Values.sa }}
         pipelineRef:
           name: pipeline-{{ $key }}-build
+        podTemplate:
+          securityContext:
+            fsGroup: 65532
         params:
           - name: app-git-url  
             value: $(tt.params.git-url)
