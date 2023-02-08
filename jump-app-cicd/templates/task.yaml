@@ -167,7 +167,7 @@ spec:
       script: |
         #!/usr/bin/env bash
         export ARGOCD_USER=$(echo "admin" | base64)
-        export ARGOCD_PASS=$(oc get secret argocd-cluster -o jsonpath='{.data.admin\.password}' -n {{ .Values.namespaceGitOps }})
+        export ARGOCD_PASS=$(oc get secret {{ .Values.namespaceGitOps }}-cluster -o jsonpath='{.data.admin\.password}' -n {{ .Values.namespaceGitOps }})
         cat <<EOF > /tmp/secret.yaml
         apiVersion: v1
         kind: Secret
