@@ -1,6 +1,19 @@
 {{- if $.Values.render }}
 {{- if $.Values.knative.enabled }}
 {{- if $.Values.knative.eventing.enabled }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-eventing
+  labels:
+    knative.openshift.io/system-namespace: true
+{{- if $.Values.argocd.enabled }}
+    argocd.argoproj.io/managed-by: {{ $.Values.argocd.controller }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-15"
+{{- end }}
+---
 apiVersion: operator.knative.dev/v1alpha1
 kind: KnativeEventing
 metadata:
