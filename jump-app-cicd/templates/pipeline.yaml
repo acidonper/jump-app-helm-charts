@@ -61,6 +61,11 @@ spec:
         - name: source
           workspace: app-source
     - name: app-image-tag-commit-dev
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchDev }}"
       taskRef:
         name: task-new-commit-image-tag
       runAfter:
@@ -73,11 +78,21 @@ spec:
         - name: commit
           value: "$(params.git-commit)"
     - name: app-argocd-generate-cred-secret
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchDev }}"
       taskRef:
         name: argocd-generate-secret
       runAfter:
         - app-image-tag-commit-dev
     - name: app-image-deploy-by-argocd-dev
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchDev }}"
       taskRef:
         name: argocd-task-sync-and-wait
       runAfter:
@@ -90,6 +105,11 @@ spec:
         - name: commit
           value: "$(params.git-commit)"
     - name: app-image-deployment-test-dev
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchDev }}"
       taskRef:
         name: task-new-commit-image-deployment-test
       runAfter:
@@ -122,6 +142,11 @@ spec:
         - name: source
           workspace: app-source
     - name: app-image-tag-commit-pre
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: task-new-commit-image-tag
       runAfter:
@@ -134,11 +159,21 @@ spec:
         - name: commit
           value: "$(params.git-commit)"
     - name: app-argocd-generate-cred-secret-pre
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: argocd-generate-secret
       runAfter:
         - app-image-tag-commit-pre
     - name: app-image-deploy-by-argocd-pre
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: argocd-task-sync-and-wait
       runAfter:
@@ -151,6 +186,11 @@ spec:
         - name: commit
           value: "$(params.git-commit)"
     - name: app-image-deployment-test-pre
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: task-new-commit-image-deployment-test
       runAfter:
@@ -165,6 +205,11 @@ spec:
         - name: commit
           value: "$(params.git-commit)"
     - name: test-app-git-clone
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       runAfter:
         - app-image-deployment-test-pre
       taskRef:
@@ -181,6 +226,11 @@ spec:
         - name: output
           workspace: app-source
     - name: app-functional-tests-pre
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: task-new-commit-pre-functional-tests
       runAfter:
@@ -192,6 +242,11 @@ spec:
         - name: source
           workspace: app-source
     - name: app-image-tag-commit-pro
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: task-new-commit-image-tag
       runAfter:
@@ -204,6 +259,11 @@ spec:
         - name: commit
           value: "production"
     - name: app-image-deploy-by-argocd-pro
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: argocd-task-sync-and-wait
       runAfter:
@@ -216,6 +276,11 @@ spec:
         - name: commit
           value: "$(params.git-commit)"
     - name: app-image-deployment-test-pro
+      when:
+        - input: $(params.git-branch)
+          operator: in
+          values:
+            - "refs/heads/{{ $.Values.gitBranchPro }}"
       taskRef:
         name: task-new-commit-image-deployment-test
       runAfter:
