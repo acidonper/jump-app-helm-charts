@@ -4,8 +4,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: init-image-{{ $key }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
 spec:
   parallelism: 1    
   completions: 1    
