@@ -147,10 +147,6 @@ spec:
     - description: The name of the app commit
       name: commit
       type: string
-  stepTemplate:
-    envFrom:
-      - secretRef:
-          name: argocd-env-secret
   steps:
     - name: argocd-app-sync
       image: argoproj/argocd
@@ -160,9 +156,15 @@ spec:
 {{- else }}
         argocd login argocd-server.{{ .Values.namespaceGitOps }}.svc.cluster.local:443 --username admin --password $ARGOCD_PASS --insecure
 {{- end }}        
-        argocd app set "$(params.argoapp)" -p global.apps."$(params.app)".imagetag="$(params.commit)" --config .argo/config
-        argocd app sync "$(params.argoapp)" --config .argo/config
-        argocd app wait "$(params.argoapp)" --config .argo/config
+        argocd app set "$(params.argoapp)" -p global.apps."$(params.app)".imagetag="$(params.commit)"
+        argocd app sync "$(params.argoapp)"
+        argocd app wait "$(params.argoapp)"
+      env:
+        - name: ARGOCD_PASS
+          valueFrom:
+            secretKeyRef:
+              name: argocd-env-secret
+              key: ARGOCD_PASS  
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
