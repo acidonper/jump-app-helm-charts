@@ -159,7 +159,8 @@ spec:
         /tmp/argocd login {{ .Values.namespaceGitOps }}-server.{{ .Values.namespaceGitOps }}.svc.cluster.local:443 --username admin --password $ARGOCD_PASS --insecure
 {{- else }}
         /tmp/argocd login argocd-server.{{ .Values.namespaceGitOps }}.svc.cluster.local:443 --username admin --password $ARGOCD_PASS --insecure
-{{- end }}        argocd app set "$(params.argoapp)" -p global.apps."$(params.app)".imagetag="$(params.commit)" --config .argo/config
+{{- end }}        
+        argocd app set "$(params.argoapp)" -p global.apps."$(params.app)".imagetag="$(params.commit)" --config .argo/config
         argocd app sync "$(params.argoapp)" --config .argo/config
         argocd app wait "$(params.argoapp)" --config .argo/config
 ---
@@ -174,7 +175,11 @@ spec:
       script: |
         #!/usr/bin/env bash
         export ARGOCD_USER=$(echo "admin" | base64)
+{{- if eq .Values.namespaceGitOps "openshift-gitops"}}
         export ARGOCD_PASS=$(oc get secret {{ .Values.namespaceGitOps }}-cluster -o jsonpath='{.data.admin\.password}' -n {{ .Values.namespaceGitOps }})
+{{- else }}
+        export ARGOCD_PASS=$(oc get secret argocd-cluster -o jsonpath='{.data.admin\.password}' -n {{ .Values.namespaceGitOps }})
+{{- end }}    
         cat <<EOF > /tmp/secret.yaml
         apiVersion: v1
         kind: Secret
