@@ -1,15 +1,5 @@
 {{- range $key, $val := $.Values.global.apps }}
----
-apiVersion: image.openshift.io/v1
-kind: ImageStream
-metadata:
-  labels:
-    app: {{ $key }}
-  name: {{ $key }}
-spec:
-  lookupPolicy:
-    local: false
-{{- end }}
+{{- if contains $key "quarkus"}}
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
@@ -28,4 +18,16 @@ spec:
     name: 20.2.0-java11
     referencePolicy:
       type: Source
-  
+{{- else }}
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: {{ $key }}
+  name: {{ $key }}
+spec:
+  lookupPolicy:
+    local: false
+{{- end }}
+{{- end }}
