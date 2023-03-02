@@ -164,7 +164,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: argocd-env-secret
-              key: ARGOCD_PASS  
+              key: ARGOCD_PASSWORD  
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
