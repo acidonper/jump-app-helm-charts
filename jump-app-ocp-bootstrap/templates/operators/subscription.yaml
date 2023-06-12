@@ -20,6 +20,12 @@ spec:
 {{- if $val.csv }}
   startingCSV: {{ $val.csv }}
 {{- end }}
+{{- if $val.argodefaultinstance }}
+  config:
+    env:
+    - name: DISABLE_DEFAULT_ARGOCD_CONSOLELINK
+      value: 'true'
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
