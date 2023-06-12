@@ -11,7 +11,7 @@ metadata:
 {{- if $.Values.argocd.enabled }}
     argocd.argoproj.io/managed-by: {{ $.Values.argocd.controller }}
   annotations:
-    argocd.argoproj.io/sync-wave: "-15"
+    argocd.argoproj.io/sync-wave: "-10"
 {{- end }}
 ---
 apiVersion: operator.knative.dev/v1alpha1
@@ -19,10 +19,6 @@ kind: KnativeEventing
 metadata:
   name: knative-eventing
   namespace: knative-eventing
-{{- if $.Values.argocd.enabled }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "-5"
-{{- end }}
 spec: {}
 {{- end }}
 {{- end }}

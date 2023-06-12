@@ -5,10 +5,6 @@ kind: ServiceMeshControlPlane
 metadata:
   namespace: {{ $.Values.istio.namespace }}
   name: {{ $.Values.istio.controlplane }}
-{{- if $.Values.argocd.enabled }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "10"
-{{- end }}
 spec:
   runtime:
     components:

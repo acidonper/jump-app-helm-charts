@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: tkn
-        image: quay.io/acidonpe/tkn
+        image: gcr.io/tekton-releases/dogfooding/tkn
         command: 
           - "tkn"
           - "pipeline"
