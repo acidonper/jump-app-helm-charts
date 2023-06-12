@@ -23,7 +23,7 @@ spec:
 {{- if $val.argodefaultinstance }}
   config:
     env:
-    - name: DISABLE_DEFAULT_ARGOCD_CONSOLELINK
+    - name: DISABLE_DEFAULT_ARGOCD_INSTANCE
       value: 'true'
 {{- end }}
 {{- end }}
