@@ -10,7 +10,7 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          knative.openshift.io/system-namespace: 'true'
+          knative.openshift.io/part-of: "openshift-serverless"
   podSelector: {}
   policyTypes:
   - Ingress
