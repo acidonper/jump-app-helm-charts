@@ -12,10 +12,10 @@ spec:
   - annotations: null
     from:
       kind: DockerImage
-      name: quay.io/quarkus/ubi-quarkus-native-s2i:20.2.0-java11
+      name: {{ $val.image }}:{{ $val.imageversion }}
     generation: 1
     importPolicy: {}
-    name: 20.2.0-java11
+    name:  {{ $val.imageversion }}
     referencePolicy:
       type: Source
 {{- else }}
