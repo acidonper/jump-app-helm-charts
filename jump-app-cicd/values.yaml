@@ -37,8 +37,10 @@ global:
   apps:
     front-javascript:
       build: is
-      imagestream: nodejs:latest
+      imagestream: nodejs14:latest
       imagestreamNamespace: openshift
+      image: quay.io/acidonpe/nodejs-14-ubi8
+      imageversion: latest
       versions:
         - v1
       gitRepo: https://github.com/acidonper/jump-app-typescrypt-react.git
