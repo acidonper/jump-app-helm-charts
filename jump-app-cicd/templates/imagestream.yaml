@@ -19,6 +19,26 @@ spec:
     referencePolicy:
       type: Source
 {{- else }}
+{{- if contains "front-javascript" $key}}
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: nodejs14
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - annotations: null
+    from:
+      kind: DockerImage
+      name: {{ $val.image }}:{{ $val.imageversion }}
+    generation: 1
+    importPolicy: {}
+    name:  {{ $val.imageversion }}
+    referencePolicy:
+      type: Source
+{{- else }}
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
