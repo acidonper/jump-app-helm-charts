@@ -38,7 +38,6 @@ global:
     front-javascript:
       build: is
       imagestream: nodejs14:latest
-      imagestreamNamespace: openshift
       image: quay.io/acidonpe/nodejs-14-ubi8
       imageversion: latest
       versions:
