@@ -18,8 +18,7 @@ spec:
     name:  {{ $val.imageversion }}
     referencePolicy:
       type: Source
-{{- else }}
-{{- if contains "front-javascript" $key}}
+{{- else if contains "front-javascript" $key }}
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
